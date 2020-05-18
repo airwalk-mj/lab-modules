@@ -43,7 +43,8 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  cluster_name = "eks-lab-${random_string.suffix.result}"
+  #cluster_name = "eks-lab-${random_string.suffix.result}"
+  cluster_name = "eks-lab"
   cluster_version = "1.16"
 }
 
