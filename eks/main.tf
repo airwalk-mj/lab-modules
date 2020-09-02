@@ -1,4 +1,10 @@
 
+locals {
+  #cluster_name = "eks-lab-${random_string.suffix.result}"
+  cluster_name = "eks-lab"
+  cluster_version = "1.16"
+}
+
 terraform {
   required_version = ">= 0.12.0"
 }
@@ -43,11 +49,7 @@ provider "kubernetes" {
 data "aws_availability_zones" "available" {
 }
 
-locals {
-  #cluster_name = "eks-lab-${random_string.suffix.result}"
-  cluster_name = "eks-lab"
-  cluster_version = "1.16"
-}
+
 
 #resource "random_string" "suffix" {
 #  length  = 8
