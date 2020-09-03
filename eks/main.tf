@@ -3,16 +3,16 @@ terraform {
 }
 
 provider "aws" {
-  version = ">= 2.28.1"
+  version = ">= 3.4"
   region  = var.aws_region
 }
 
 provider "random" {
-  version = "~> 2.1"
+  version = "~> 2.3"
 }
 
 provider "local" {
-  version = "~> 1.2"
+  version = "~> 1.4"
 }
 
 provider "null" {
@@ -36,7 +36,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.cluster.token
   load_config_file       = false
-  version                = "~> 1.10"
+  version                = "~> 1.13"
 }
 
 data "aws_availability_zones" "available" {
@@ -143,18 +143,18 @@ module "eks" {
   worker_groups = [
     {
       name                          = "worker-group-1"
-      instance_type                 = "t2.small"
-      additional_userdata           = "echo foo bar"
-      asg_desired_capacity          = 2
-      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
-    },
-    {
-      name                          = "worker-group-2"
       instance_type                 = "t2.medium"
       additional_userdata           = "echo foo bar"
-      additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
       asg_desired_capacity          = 1
+      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
     },
+    #{
+    #  name                          = "worker-group-2"
+    #  instance_type                 = "t2.medium"
+    #  additional_userdata           = "echo foo bar"
+    #  additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
+    #  asg_desired_capacity          = 1
+    #},
   ]
 
   worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
