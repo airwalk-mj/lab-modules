@@ -101,7 +101,7 @@ resource "aws_security_group" "all_worker_mgmt" {
 
 module "vpc" {
   source  = "git@github.com:airWalk-mj/lab-modules.git//eks"
-  version = "2.6.0"
+  #version = "2.6.0"
 
   name                 = "test-vpc"
   cidr                 = "10.0.0.0/16"
