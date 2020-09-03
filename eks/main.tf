@@ -100,7 +100,7 @@ resource "aws_security_group" "all_worker_mgmt" {
 }
 
 module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
+  source  = "airwalk-mj/lab-modules/eks"
   version = "2.6.0"
 
   name                 = "test-vpc"
@@ -129,7 +129,7 @@ module "vpc" {
 
 module "eks" {
   #source       = "../.."
-  source       = "./variables.tf"
+  source  = "airwalk-mj/lab-modules/eks"
   cluster_name = local.cluster_name
   subnets      = module.vpc.private_subnets
 
