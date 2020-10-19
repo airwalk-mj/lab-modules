@@ -23,14 +23,6 @@ provider "template" {
   version = "~> 2.1"
 }
 
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_id
-}
-
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_id
-}
-
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
@@ -129,17 +121,33 @@ module "vpc" {
 }
 
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = local.cluster_name
-  cluster_version = local.cluster_version
-  vpc_id          = module.vpc.vpc_id
-  subnets         = module.vpc.private_subnets
+  source       = "github.com/terraform-aws-modules/terraform-aws-eks"
+  cluster_name = "${var.env}-${var.resource_name}"
+  subnets      = data.terraform_remote_state.network.outputs.pub_sn_id
+  vpc_id       = data.terraform_remote_state.network.outputs.vpc_id
+  cluster_version  = var.cluster_version
   tags = {
     Environment = "dev"
   }
 
-  worker_groups = [
-    {
+  worker_groups = [{
+    asg_desired_capacity          = var.desired_capacity
+    asg_max_size                  = var.max_size
+    asg_min_size                  = var.min_size
+    instance_type                 = var.instance_type
+    spot_price                    = var.spot_price
+    root_volume_size              = var.root_volume_size
+    root_volume_type              = var.root_volume_type
+    key_name                      = var.key_pair
+    ebs_optimized                 = true
+    public_ip                     = false
+    autoscaling_enabled           = true
+    protect_from_scale_in         = true
+    subnets = data.terraform_remote_state.network.outputs.priv_sn_id
+    }]
+  }
+
+  worker_groups = [{
       name                          = "worker-group-1"
       instance_type                 = "t2.medium"
       additional_userdata           = "echo hello"
@@ -159,4 +167,12 @@ module "eks" {
   map_roles                            = var.map_roles
   map_users                            = var.map_users
   map_accounts                         = var.map_accounts
+}
+
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_id
 }

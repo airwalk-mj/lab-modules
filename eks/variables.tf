@@ -1,55 +1,16 @@
-
-variable "aws_region" {}
-variable "vpc_name" {}
-variable "cluster_name" {}
-variable "cluster_version" {}
-
-
-variable "map_accounts" {
-  description = "Additional AWS account numbers to add to the aws-auth configmap."
-  type        = list(string)
-
-  default = [
-    "777777777777",
-    "888888888888",
-  ]
-}
-
-variable "map_roles" {
-  description = "Additional IAM roles to add to the aws-auth configmap."
-  type = list(object({
-    rolearn  = string
-    username = string
-    groups   = list(string)
-  }))
-
-  default = [
-    {
-      rolearn  = "arn:aws:iam::66666666666:role/role1"
-      username = "role1"
-      groups   = ["system:masters"]
-    },
-  ]
-}
-
-variable "map_users" {
-  description = "Additional IAM users to add to the aws-auth configmap."
-  type = list(object({
-    userarn  = string
-    username = string
-    groups   = list(string)
-  }))
-
-  default = [
-    {
-      userarn  = "arn:aws:iam::66666666666:user/user1"
-      username = "user1"
-      groups   = ["system:masters"]
-    },
-    {
-      userarn  = "arn:aws:iam::66666666666:user/user2"
-      username = "user2"
-      groups   = ["system:masters"]
-    },
-  ]
-}
+vpc_name                   = "lab-vpc"
+instance_type              = "t2.large"
+max_size                   = "1"
+min_size                   = "1"
+desired_capacity           = "1"
+max_size_on_demand         = "1"
+min_size_on_demand         = "1
+desired_capacity_on_demand = "1"
+spot_price                 = "0.38"
+root_volume_size           = "32"
+root_volume_type           = "standard"
+cluster_version            = "1.16"
+env                        = "dev"
+region                     = "eu-west-2"
+key_pair                   = "dev"
+resource_name              = "eks-lab"
