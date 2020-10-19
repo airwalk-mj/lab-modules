@@ -121,14 +121,18 @@ module "vpc" {
 }
 
 module "eks" {
-  source           = "terraform-aws-modules/eks/aws"
-  cluster_name     = local.cluster_name
-  subnets          = data.terraform_remote_state.network.outputs.pub_sn_id
-  vpc_id           = data.terraform_remote_state.network.outputs.vpc_id
-  cluster_version  = local.cluster_version
-  tags = {
-    Environment = local.environment_vars.locals.environment
-  }
+  source       = "terraform-aws-modules/eks/aws"
+  cluster_name = local.cluster_name
+  subnets      = module.vpc.private_subnets
+
+  #source           = "terraform-aws-modules/eks/aws"
+  #cluster_name     = local.cluster_name
+  #subnets          = data.terraform_remote_state.network.outputs.pub_sn_id
+  #vpc_id           = data.terraform_remote_state.network.outputs.vpc_id
+  #cluster_version  = local.cluster_version
+  #tags = {
+  #  Environment = local.environment_vars.locals.environment
+  #}
 
   worker_groups = [{
     asg_desired_capacity          = var.desired_capacity
