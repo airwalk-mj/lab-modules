@@ -121,7 +121,7 @@ module "vpc" {
 }
 
 module "eks" {
-  source       = "github.com/terraform-aws-modules/terraform-aws-eks"
+  source       = "terraform-aws-modules/eks/aws"
   cluster_name = "${var.env}-${var.resource_name}"
   subnets      = data.terraform_remote_state.network.outputs.pub_sn_id
   vpc_id       = data.terraform_remote_state.network.outputs.vpc_id
