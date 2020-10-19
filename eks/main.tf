@@ -149,7 +149,7 @@ module "eks" {
     protect_from_scale_in         = true
     subnets = data.terraform_remote_state.network.outputs.priv_sn_id
     }]
-  }
+
 
   worker_groups = [{
       name                          = "worker-group-1"
