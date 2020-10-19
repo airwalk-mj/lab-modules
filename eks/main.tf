@@ -120,41 +120,34 @@ module "vpc" {
   }
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_id
+}
+
 module "eks" {
+  #source          = "../.."
   source       = "terraform-aws-modules/eks/aws"
-  cluster_name = local.cluster_name
-  subnets      = module.vpc.private_subnets
-  vpc_id       = module.vpc.vpc_id
-  #source           = "terraform-aws-modules/eks/aws"
-  #cluster_name     = local.cluster_name
-  #subnets          = data.terraform_remote_state.network.outputs.pub_sn_id
-  #vpc_id           = data.terraform_remote_state.network.outputs.vpc_id
-  #cluster_version  = local.cluster_version
-  #tags = {
-  #  Environment = local.environment_vars.locals.environment
-  #}
+  cluster_name    = local.cluster_name
+  cluster_version = "1.17"
+  subnets         = module.vpc.private_subnets
 
-  worker_groups = [{
-    asg_desired_capacity          = var.desired_capacity
-    asg_max_size                  = var.max_size
-    asg_min_size                  = var.min_size
-    instance_type                 = var.instance_type
-    spot_price                    = var.spot_price
-    root_volume_size              = var.root_volume_size
-    root_volume_type              = var.root_volume_type
-    key_name                      = var.key_pair
-    ebs_optimized                 = true
-    public_ip                     = false
-    autoscaling_enabled           = true
-    protect_from_scale_in         = true
-    subnets = data.terraform_remote_state.network.outputs.priv_sn_id
-    }]
+  tags = {
+    Environment = local.environment
+    GithubRepo  = "terraform-aws-eks"
+    GithubOrg   = "terraform-aws-modules"
+  }
 
+  vpc_id = module.vpc.vpc_id
 
-  worker_groups = [{
+  worker_groups = [
+    {
       name                          = "worker-group-1"
       instance_type                 = "t2.medium"
-      additional_userdata           = "echo hello"
+      additional_userdata           = "echo mark james"
       asg_desired_capacity          = 1
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
     },
@@ -171,12 +164,4 @@ module "eks" {
   map_roles                            = var.map_roles
   map_users                            = var.map_users
   map_accounts                         = var.map_accounts
-}
-
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_id
-}
-
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_id
 }
