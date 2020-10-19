@@ -4,7 +4,8 @@ terraform {
 
 provider "aws" {
   version = ">= 3.4"
-  region  = var.aws_region
+  #region  = var.aws_region
+  region  = local.aws_region
 }
 
 provider "random" {
@@ -135,11 +136,11 @@ module "eks" {
   cluster_version = "1.17"
   subnets         = module.vpc.private_subnets
 
-  tags = {
-    Environment = local.environment
-    GithubRepo  = "terraform-aws-eks"
-    GithubOrg   = "terraform-aws-modules"
-  }
+  #tags = {
+  #  GithubRepo  = "terraform-aws-eks"
+  #  Environment = local.environment
+  #  GithubOrg   = "terraform-aws-modules"
+  #}
 
   vpc_id = module.vpc.vpc_id
 
