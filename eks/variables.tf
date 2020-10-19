@@ -13,4 +13,4 @@
 #env                        = "dev"
 #region                     = "eu-west-2"
 #key_pair                   = "dev"
-resource_name              = "eks-lab"
+#resource_name              = "eks-lab"
