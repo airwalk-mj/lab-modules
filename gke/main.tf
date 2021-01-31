@@ -5,6 +5,7 @@ terraform {
 }
 
 provider "google" {
+  # neither `credentials` nor `access_token` was set in the provider block
 }
 
 resource "google_compute_network" "kubernetes_network" {
