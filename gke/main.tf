@@ -43,7 +43,7 @@ resource "google_container_cluster" "kubernetes_cluster" {
 
 resource "google_container_node_pool" "default_pool" {
   name       = var.default_pool_name
-  zone       = var.master_zone
+  #zone       = var.master_zone
   cluster    = google_container_cluster.kubernetes_cluster.name
   node_count = var.node_count
   project    = var.project
