@@ -20,7 +20,7 @@ resource "google_container_cluster" "kubernetes_cluster" {
   network = "${google_compute_network.kubernetes_network.name}"
 
   lifecycle {
-    ignore_changes = ["node_pool"]
+    ignore_changes = [node_pool]
   }
 
   node_pool {
