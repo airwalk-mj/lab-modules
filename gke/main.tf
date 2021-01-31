@@ -5,7 +5,15 @@ terraform {
 }
 
 provider "google" {
-  # neither `credentials` nor `access_token` was set in the provider block
+  # error: neither `credentials` nor `access_token` was set in the provider block? << This is deliberate because we dont want hardcoded credenmtials!
+  #
+  # run gcloud auth application-default login
+  #
+  # or if that doesn't work...
+  #
+  # run gcloud auth application-default login --no-launch-browser
+  #
+  # to establish CLI auth for Terraform
 }
 
 resource "google_compute_network" "kubernetes_network" {
@@ -16,8 +24,6 @@ resource "google_compute_network" "kubernetes_network" {
 
 resource "google_container_cluster" "kubernetes_cluster" {
   name               = var.cluster_name
-  #zone               = var.master_zone
-  #additional_zones   = var.additional_zones
   min_master_version = var.min_master_version
   project            = var.project
   network = google_compute_network.kubernetes_network.name
@@ -44,7 +50,6 @@ resource "google_container_cluster" "kubernetes_cluster" {
 
 resource "google_container_node_pool" "default_pool" {
   name       = var.default_pool_name
-  #zone       = var.master_zone
   cluster    = google_container_cluster.kubernetes_cluster.name
   node_count = var.node_count
   project    = var.project
