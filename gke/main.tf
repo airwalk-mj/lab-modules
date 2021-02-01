@@ -10,11 +10,13 @@ resource "google_compute_network" "kubernetes_network" {
 }
 
 resource "google_service_account" "default" {
+  project      = var.project
   account_id   = var.project
   display_name = "Service Account"
 }
 
 resource "google_container_cluster" "primary" {
+  project  = var.project
   name     = var.project
   location = var.master_zone
 
