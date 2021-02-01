@@ -46,11 +46,11 @@ variable "min_master_version" {
 }
 
 variable "initial_default_pool_name" {
-  default = "airwalk-lab"
+  default = "unused-default-pool"
 }
 
 variable "default_pool_name" {
-  default = "airwalk-lab"
+  default = "default-pool"
 }
 
 variable "daily_maintenance_window_start_time" {
@@ -70,5 +70,5 @@ variable "kubernetes_network_name" {
 }
 
 variable "image_type" {
-  default = "COS_CONTAINERD"
+  default = "COS_CONTAINERD""
 }

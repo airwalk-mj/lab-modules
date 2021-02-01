@@ -15,7 +15,6 @@ resource "google_container_cluster" "kubernetes_cluster" {
   project            = var.project
   network            = google_compute_network.kubernetes_network.name
   
-  
   lifecycle {
     ignore_changes = [node_pool]
   }
@@ -54,8 +53,7 @@ resource "google_container_node_pool" "default_pool" {
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/servicecontrol",
       "https://www.googleapis.com/auth/service.management.readonly",
-      "https://www.googleapis.com/auth/trace.append",
-      "https://www.googleapis.com/auth/cloud-platform",
+      "https://www.googleapis.com/auth/trace.append"
     ]
   }
 
