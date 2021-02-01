@@ -28,7 +28,7 @@ variable "admin_password" {
 }
 
 variable "machine_type" {
-  default = "n1-standard-1"
+  default = "e2-medium"
 }
 
 variable "disk_size_gb" {
