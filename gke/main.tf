@@ -13,8 +13,9 @@ resource "google_container_cluster" "kubernetes_cluster" {
   name               = var.cluster_name
   min_master_version = var.min_master_version
   project            = var.project
+  image_type         = var.image_type
   network            = google_compute_network.kubernetes_network.name
-
+  
   lifecycle {
     ignore_changes = [node_pool]
   }
