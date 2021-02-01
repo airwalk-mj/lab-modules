@@ -27,8 +27,7 @@ resource "google_container_cluster" "kubernetes_cluster" {
   min_master_version = var.min_master_version
   project            = var.project
   network = google_compute_network.kubernetes_network.name
-  master_zone        = var.master_zone
-  additional_zones   = var.additional_zones
+  zone               = var.master_zone
 
   lifecycle {
     ignore_changes = [node_pool]
