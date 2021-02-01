@@ -27,7 +27,6 @@ resource "google_container_cluster" "kubernetes_cluster" {
   min_master_version = var.min_master_version
   project            = var.project
   network = google_compute_network.kubernetes_network.name
-  zone               = "us-west1-a"
 
   lifecycle {
     ignore_changes = [node_pool]
@@ -67,6 +66,7 @@ resource "google_container_node_pool" "default_pool" {
       "https://www.googleapis.com/auth/servicecontrol",
       "https://www.googleapis.com/auth/service.management.readonly",
       "https://www.googleapis.com/auth/trace.append",
+      "https://www.googleapis.com/auth/cloud-platform",
     ]
   }
 
