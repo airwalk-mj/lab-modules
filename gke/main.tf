@@ -15,7 +15,7 @@ resource "google_container_cluster" "kubernetes_cluster" {
   project            = var.project
   network            = google_compute_network.kubernetes_network.name
   
-
+  
   lifecycle {
     ignore_changes = [node_pool]
   }
@@ -36,7 +36,7 @@ resource "google_container_cluster" "kubernetes_cluster" {
   }
 }
 
-resource "google_container_node_pool" "${var.initial_default_pool_name}" {
+resource "google_container_node_pool" "default_pool" {
   name       = var.default_pool_name
   cluster    = google_container_cluster.kubernetes_cluster.name
   node_count = var.node_count
