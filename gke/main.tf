@@ -41,11 +41,12 @@ resource "google_container_node_pool" "default_pool" {
   cluster    = google_container_cluster.kubernetes_cluster.name
   node_count = var.node_count
   project    = var.project
-  image_type   = var.image_type
+  
   
   node_config {
     machine_type = var.machine_type
     disk_size_gb = var.disk_size_gb
+    image_type   = var.image_type
     
     oauth_scopes = [
       "https://www.googleapis.com/auth/logging.write",
