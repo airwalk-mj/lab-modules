@@ -19,10 +19,10 @@ resource "google_container_cluster" "kubernetes_cluster" {
     ignore_changes = [node_pool]
   }
 
-  node_pool {
-    name = var.default_pool_name
-    
-  }
+  #node_pool {
+  #  name = var.default_pool_name
+  #  
+  #}
 
   master_auth {
     username = var.admin_username
