@@ -46,11 +46,11 @@ variable "min_master_version" {
 }
 
 variable "initial_default_pool_name" {
-  default = "unused-default-pool"
+  default = "airwalk-lab"
 }
 
 variable "default_pool_name" {
-  default = "default-pool"
+  default = "airwalk-lab"
 }
 
 variable "daily_maintenance_window_start_time" {

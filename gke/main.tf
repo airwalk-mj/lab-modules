@@ -6,16 +6,16 @@ terraform {
 resource "google_compute_network" "kubernetes_network" {
   name                    = var.kubernetes_network_name
   auto_create_subnetworks = "true"
-  project = var.project
+  project                 = var.project
 }
 
 resource "google_container_cluster" "kubernetes_cluster" {
   name               = var.cluster_name
   min_master_version = var.min_master_version
   project            = var.project
-  
   network            = google_compute_network.kubernetes_network.name
   
+
   lifecycle {
     ignore_changes = [node_pool]
   }
@@ -36,7 +36,7 @@ resource "google_container_cluster" "kubernetes_cluster" {
   }
 }
 
-resource "google_container_node_pool" "default_pool" {
+resource "google_container_node_pool" var.initial_default_pool_name {
   name       = var.default_pool_name
   cluster    = google_container_cluster.kubernetes_cluster.name
   node_count = var.node_count
