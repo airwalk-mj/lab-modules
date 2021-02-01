@@ -50,24 +50,24 @@ variable "min_master_version" {
   default = "0.18.0-gke.5"
 }
 
-variable "initial_default_pool_name" {
-  default = "unused-default-pool"
-}
+#variable "initial_default_pool_name" {
+#  default = "unused-default-pool"
+#}
 
-variable "default_pool_name" {
-  default = "default-pool"
-}
+#variable "default_pool_name" {
+#  default = "default-pool"
+#}
 
 variable "daily_maintenance_window_start_time" {
   default = "00:00"
 }
 
 variable "env" {
-  default = "sample"
+  default = "dev"
 }
 
 variable "kubernetes_network_name" {
-  default = "kubernetes-network"
+  default = "lab-network"
 }
 
 variable "image_type" {
