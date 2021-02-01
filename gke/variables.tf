@@ -68,3 +68,7 @@ variable "env" {
 variable "kubernetes_network_name" {
   default = "kubernetes-network"
 }
+
+variable "image_type" {
+  default = "COS"
+}
