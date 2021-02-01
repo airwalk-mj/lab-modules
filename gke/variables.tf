@@ -42,7 +42,7 @@ variable "additional_zones" {
 }
 
 variable "min_master_version" {
-  #default = "1.9.4-gke.1"
+  default = "0.18.0-gke.5"
 }
 
 variable "initial_default_pool_name" {
