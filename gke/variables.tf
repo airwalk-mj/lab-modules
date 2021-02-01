@@ -1,3 +1,7 @@
+variable "project" {
+  default = "demo-project"
+}
+
 variable "cluster_name" {
   default = "kubernetes-cluster"
 }

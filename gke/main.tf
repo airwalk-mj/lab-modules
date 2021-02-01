@@ -10,7 +10,7 @@ resource "google_compute_network" "kubernetes_network" {
 }
 
 resource "google_service_account" "default" {
-  account_id   = "service-account-id"
+  account_id   = var.project
   display_name = "Service Account"
 }
 
