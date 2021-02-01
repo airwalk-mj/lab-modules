@@ -20,7 +20,7 @@ resource "google_container_cluster" "kubernetes_cluster" {
   }
 
   node_pool {
-    name       = var.var.default_pool_name
+    name       = var.default_pool_name
   }
 
   master_auth {
