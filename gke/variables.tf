@@ -1,3 +1,4 @@
+
 variable "project" {
   default = "demo-project"
 }
@@ -59,10 +60,6 @@ variable "default_pool_name" {
 
 variable "daily_maintenance_window_start_time" {
   default = "00:00"
-}
-
-variable "project" {
-  default = "gcp-project"
 }
 
 variable "env" {
