@@ -4,18 +4,6 @@ terraform {
   backend "gcs" {}
 }
 
-provider "google" {
-  # error: neither `credentials` nor `access_token` was set in the provider block? << This is deliberate because we dont want hardcoded credenmtials!
-  #
-  # run gcloud auth application-default login
-  #
-  # or if that doesn't work...
-  #
-  # run gcloud auth application-default login --no-launch-browser
-  #
-  # to establish CLI auth for Terraform
-}
-
 resource "google_compute_network" "kubernetes_network" {
   name                    = var.kubernetes_network_name
   auto_create_subnetworks = "true"
