@@ -70,5 +70,5 @@ variable "kubernetes_network_name" {
 }
 
 variable "image_type" {
-  default = "COS"
+  default = "COS_CONTAINERD""
 }
