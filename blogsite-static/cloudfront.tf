@@ -55,7 +55,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   restrictions {
-    "geo_restriction" {
+    geo_restriction {
       restriction_type = "none"
     }
   }
