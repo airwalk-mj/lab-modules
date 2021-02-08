@@ -34,3 +34,7 @@ variable "max_ttl" {
 variable "default_ttl" {
   default = "86400"
 }
+
+variable "custom_error_response" {
+  default = "get lost!"
+}
