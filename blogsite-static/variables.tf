@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 variable "site_domain" {
-  default = "lab.airwalkconsulting.com"
+  default = "airwalkconsulting.com"
 }
 
 variable "bucket_index_document" {
