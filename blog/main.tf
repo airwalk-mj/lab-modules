@@ -2,41 +2,6 @@ terraform {
   required_version = ">= 0.12.0"
 }
 
-provider "aws" {
-  version = "~> 3.4"
-  region  = var.region
-}
-
-provider "random" {
-  version = "~> 2.3"
-}
-
-provider "local" {
-  version = "~> 1.4"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
-provider "template" {
-  version = "~> 2.1"
-}
-
-data "aws_availability_zones" "available" {
-}
-
-locals {
-  #cluster_name = "test-eks-${random_string.suffix.result}"
-  cluster_name = "eks-lab"
-  cluster_version = "1.16"
-}
-
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-}
-
 resource "aws_s3_bucket" "site" {
         bucket = "${var.site_domain}"
       
