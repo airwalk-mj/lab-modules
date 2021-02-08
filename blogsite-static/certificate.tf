@@ -15,27 +15,20 @@ resource "aws_acm_certificate" "default" {
   validation_method = "DNS"
 }
 
-resource "dnsimple_record" "validation" {
-  domain = var.site_domain
-
-  // remove the apex domain from the resource_record_name otherwise dnsimple errors
-  name  = replace(aws_acm_certificate.default.domain_validation_options.0.resource_record_name, ".${var.site_domain}.", "")
-  type  = aws_acm_certificate.default.domain_validation_options.0.resource_record_type
-  // Remove the trailing . as dnsimple removes it anyway and the domain still gets validated.
-  // If the . isn't removed then this will always want to update
-  value = replace(aws_acm_certificate.default.domain_validation_options.0.resource_record_value, "/\\.$/", "")
-  ttl = "60"
+resource "aws_route53_record" "validation" {
+  zone_id = "Z064458838N2OGDPML4NA"
+  name    = "www.blog.lab.airwalkconsulting.com"
+  type    = aws_acm_certificate.default.domain_validation_options.0.resource_record_type
+  ttl     = "300"
+  records = replace(aws_acm_certificate.default.domain_validation_options.0.resource_record_value, "/\\.$/", "")
 }
 
-resource "dnsimple_record" "alt_validation" {
-  domain = var.site_domain
-  // remove the apex domain from the resource_record_name otherwise dnsimple errors
-  name  = replace(aws_acm_certificate.default.domain_validation_options.1.resource_record_name, ".${var.site_domain}.", "")
-  type  = aws_acm_certificate.default.domain_validation_options.1.resource_record_type
-  // Remove the trailing . as dnsimple removes it anyway and the domain still gets validated.
-  // If the . isn't removed then this will always want to update
-  value = replace(aws_acm_certificate.default.domain_validation_options.1.resource_record_value, "/\\.$/", "")
-  ttl = "60"
+resource "aws_route53_record" "alt_validation" {
+  zone_id = "Z064458838N2OGDPML4NA"
+  name    = "www.blog.lab.airwalkconsulting.com"
+  type    = aws_acm_certificate.default.domain_validation_options.1.resource_record_type
+  ttl     = "300"
+  records = replace(aws_acm_certificate.default.domain_validation_options.1.resource_record_value, "/\\.$/", "")
 }
 
 # Wait for Validation
