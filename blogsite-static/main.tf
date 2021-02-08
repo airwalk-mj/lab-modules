@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "site" {
   }
 
   logging {
-    target_bucket = "${aws_s3_bucket.site_log_bucket.id}"
+    target_bucket = aws_s3_bucket.site_log_bucket.id
   }
 
   versioning {
