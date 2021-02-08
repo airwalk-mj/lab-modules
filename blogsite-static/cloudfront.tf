@@ -60,5 +60,5 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  custom_error_response  = var.custom_error_response
+  #custom_error_response  = var.custom_error_response
 }
