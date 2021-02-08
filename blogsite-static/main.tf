@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "site_public_access" {
 
   statement {
     actions = ["s3:ListBucket"]
-    resources = ["${aws_s3_bucket.site.arn}"]
+    resources = [aws_s3_bucket.site.arn]
 
     principals {
       type = "AWS"
@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "site_public_access" {
 }
 
 resource "aws_s3_bucket_policy" "redirect_to_apex" {
-  bucket = "${aws_s3_bucket.redirect_to_apex.id}"
+  bucket = aws_s3_bucket.redirect_to_apex.id
   policy = data.aws_iam_policy_document.redirect_to_apex.json
 }
 
@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "redirect_to_apex" {
 
   statement {
     actions = ["s3:ListBucket"]
-    resources = ["${aws_s3_bucket.redirect_to_apex.arn}"]
+    resources = [aws_s3_bucket.redirect_to_apex.arn]
 
     principals {
       type = "AWS"
