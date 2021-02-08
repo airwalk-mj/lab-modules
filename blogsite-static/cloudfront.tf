@@ -120,7 +120,7 @@ resource "aws_route53_record" "access" {
   ttl = "3600"
 }
 
-resource "dnsimple_record" "alt_access" {
+resource "aws_route53_record" "alt_access" {
   domain = var.site_domain
   name = "www"
   type = "CNAME"
