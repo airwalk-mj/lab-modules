@@ -1,25 +1,16 @@
 
-output "bucket_domain_name" {
-  value       = module.this.enabled ? join("", aws_s3_bucket.site.*.bucket_domain_name) : ""
-  description = "FQDN of bucket"
+output "s3_bucket_id" {
+    value = aws_s3_bucket.s3_bucket.id
 }
-
-output "bucket_regional_domain_name" {
-  value       = module.this.enabled ? join("", aws_s3_bucket.site.*.bucket_regional_domain_name) : ""
-  description = "The bucket region-specific domain name"
+output "s3_bucket_arn" {
+    value = aws_s3_bucket.s3_bucket.arn
 }
-
-output "bucket_id" {
-  value       = module.this.enabled ? join("", aws_s3_bucket.site.*.id) : ""
-  description = "Bucket Name (aka ID)"
+output "s3_bucket_domain_name" {
+    value = aws_s3_bucket.s3_bucket.bucket_domain_name
 }
-
-output "bucket_arn" {
-  value       = module.this.enabled ? join("", aws_s3_bucket.site.*.arn) : ""
-  description = "Bucket ARN"
+output "s3_hosted_zone_id" {
+    value = aws_s3_bucket.s3_bucket.hosted_zone_id
 }
-
-output "bucket_region" {
-  value       = module.this.enabled ? join("", aws_s3_bucket.site.*.region) : ""
-  description = "Bucket region"
+output "s3_bucket_region" {
+    value = aws_s3_bucket.s3_bucket.region
 }
