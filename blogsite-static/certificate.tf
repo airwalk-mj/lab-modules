@@ -8,35 +8,37 @@ provider "aws" {
   region = "us-east-1"
 }
 
-
-
-
-resource "aws_acm_certificate" "cert" {
-  domain_name       = var.site_domain
-  validation_method = "DNS"
+data "aws_route53_zone" "public_root_domain" {
+  name    = var.public_root_domain
 }
 
-#resource "aws_acm_certificate" "default" {
-#  provider = aws.virginia
-#  domain_name = var.site_domain
-#  validation_method = "DNS"
-#  subject_alternative_names = [var.site_domain, "www.${var.site_domain}"]
-#}
-
-data "aws_route53_zone" "lab" {
-  name    = "lab.airwalkconsulting.io"
-  zone_id = "Z064458838N2OGDPML4NA"
+resource "aws_acm_certificate" "blog" {
+  domain_name               = "blog.${var.public_root_domain}"
+  subject_alternative_names = [
+    "blog1.${var.public_root_domain}",
+    "blog2.${var.public_root_domain}",
+    "blog3.${var.public_root_domain}",
+  ]
+  validation_method         = "DNS"
 }
 
-resource "aws_route53_record" "cert-validation" {
-  name    = tolist(aws_acm_certificate.cert.domain_validation_options[0].resource_record_name)
-  type    = tolist(aws_acm_certificate.cert.domain_validation_options[0].resource_record_type)
-  zone_id = data.aws_route53_zone.lab.zone_id
-  records = [tolist(aws_acm_certificate.cert.domain_validation_options[0].resource_record_value)]
-  ttl     = "60"
+resource "aws_route53_record" "existing" {
+  for_each = {
+    for dvo in aws_acm_certificate.existing.domain_validation_options: dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = data.aws_route53_zone.public_root_domain.zone_id
 }
 
-resource "aws_acm_certificate_validation" "cert" {
-  certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = [aws_route53_record.cert-validation.fqdn]
+resource "aws_acm_certificate_validation" "existing" {
+  certificate_arn         = aws_acm_certificate.existing.arn
+  validation_record_fqdns = [for record in aws_route53_record.existing: record.fqdn]
 }
