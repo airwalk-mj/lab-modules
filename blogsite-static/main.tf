@@ -2,6 +2,15 @@ terraform {
   required_version = ">= 0.12.0"
 }
 
+provider "aws" {
+  version = "~> 3.4"
+  region  = var.aws_region
+}
+
+provider "random" {
+  version = "~> 2.3"
+}
+
 resource "aws_s3_bucket" "site" {
   bucket = var.site_domain
 
