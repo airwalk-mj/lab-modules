@@ -8,7 +8,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_route53_zone" "zone" {
+data "aws_route53_zone" "my_zone" {
   zone_id = var.zone_id
 }
 
@@ -35,7 +35,7 @@ resource "aws_route53_record" "blog" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.site_domain.zone_id
+  zone_id         = data.aws_route53_zone.my_zone.zone_id
 }
 
 resource "aws_acm_certificate_validation" "blog" {
