@@ -16,27 +16,24 @@ resource "aws_acm_certificate" "default" {
 }
 
 resource "aws_route53_record" "validation" {
-  zone_id = "Z064458838N2OGDPML4NA"
-  name    = "www.blog.lab.airwalkconsulting.com"
-  type    = aws_acm_certificate.default.domain_validation_options.0.resource_record_type
-  ttl     = "300"
-  records = replace(aws_acm_certificate.default.domain_validation_options.0.resource_record_value, "/\\.$/", "")
-}
+  for_each = {
+    for dvo in aws_acm_certificate.example.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
 
-resource "aws_route53_record" "alt_validation" {
-  zone_id = "Z064458838N2OGDPML4NA"
-  name    = "www.blog.lab.airwalkconsulting.com"
-  type    = aws_acm_certificate.default.domain_validation_options.1.resource_record_type
-  ttl     = "300"
-  records = replace(aws_acm_certificate.default.domain_validation_options.1.resource_record_value, "/\\.$/", "")
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = data.aws_route53_zone.validation.zone_id
 }
 
 # Wait for Validation
-resource "aws_acm_certificate_validation" "default" {
-  provider = aws.virginia
-  certificate_arn = aws_acm_certificate.default.arn
-  validation_record_fqdns = [
-    aws_route53_record.validation.hostname,
-    aws_route53_record.alt_validation.hostname
-  ]
+resource "aws_acm_certificate_validation" "validation" {
+  certificate_arn         = aws_acm_certificate.va;lidation.arn
+  validation_record_fqdns = [for record in aws_route53_record.validation : record.fqdn]
 }
