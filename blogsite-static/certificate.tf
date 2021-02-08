@@ -9,16 +9,16 @@ provider "aws" {
 }
 
 data "aws_route53_zone" "site_domain" {
-  #name    = var.site_domain
-  zone_id = var.zone_id
+  name    = var.site_domain
+  #zone_id = var.zone_id
 }
 
-resource "aws_acm_certificate" "lab" {
-  domain_name               = "lab.${var.site_domain}"
+resource "aws_acm_certificate" "blog" {
+  domain_name               = "blog.${var.site_domain}"
   subject_alternative_names = [
-    "lab1.${var.site_domain}",
-    "lab2.${var.site_domain}",
-    "lab3.${var.site_domain}",
+    "blog1.${var.site_domain}",
+    "blog2.${var.site_domain}",
+    "blog3.${var.site_domain}",
   ]
   validation_method         = "DNS"
 }
