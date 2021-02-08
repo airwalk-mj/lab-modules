@@ -37,7 +37,7 @@ resource "dns_record" "alt_validation" {
   value = replace(aws_acm_certificate.default.domain_validation_options.1.resource_record_value, "/\\.$/", "")
   ttl = "60"
 }
-s
+
 # Wait for Validation
 resource "aws_acm_certificate_validation" "default" {
   provider = aws.virginia
@@ -47,4 +47,3 @@ resource "aws_acm_certificate_validation" "default" {
     dns_record.alt_validation.hostname
   ]
 }
-s
