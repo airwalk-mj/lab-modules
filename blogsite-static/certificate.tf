@@ -21,15 +21,21 @@ resource "aws_acm_certificate" "existing" {
   validation_method         = "DNS"
 }
 resource "aws_route53_record" "existing" {
-  count = length(aws_acm_certificate.existing.subject_alternative_names) + 1
+  for_each = {
+    for dvo in aws_acm_certificate.existing.domain_validation_options: dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
   allow_overwrite = true
-  name            = aws_acm_certificate.existing.domain_validation_options[count.index].resource_record_name
-  records         = [aws_acm_certificate.existing.domain_validation_options[count.index].resource_record_value]
+  name            = each.value.name
+  records         = [each.value.record]
   ttl             = 60
-  type            = aws_acm_certificate.existing.domain_validation_options[count.index].resource_record_type
+  type            = each.value.type
   zone_id         = data.aws_route53_zone.public_root_domain.zone_id
 }
 resource "aws_acm_certificate_validation" "existing" {
   certificate_arn         = aws_acm_certificate.existing.arn
-  validation_record_fqdns = aws_route53_record.existing[*].fqdn
+  validation_record_fqdns = [for record in aws_route53_record.existing: record.fqdn]
 }
