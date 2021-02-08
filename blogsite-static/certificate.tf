@@ -9,8 +9,8 @@ provider "aws" {
 }
 
 data "aws_route53_zone" "site_domain" {
-  name    = var.site_domain
-  #zone_id = var.zone_id
+  #name    = var.site_domain
+  zone_id = var.zone_id
 }
 
 resource "aws_acm_certificate" "lab" {
