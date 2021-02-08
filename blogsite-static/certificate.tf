@@ -8,15 +8,15 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_route53_zone" "public_root_domain" {
-  name = var.public_root_domain
+data "aws_route53_zone" "site_domain" {
+  name = var.site_domain
 }
 resource "aws_acm_certificate" "existing" {
-  domain_name               = "existing.${var.public_root_domain}"
+  domain_name               = "existing.${var.site_domain}"
   subject_alternative_names = [
-    "existing1.${var.public_root_domain}",
-    "existing2.${var.public_root_domain}",
-    "existing3.${var.public_root_domain}",
+    "existing1.${var.site_domain}",
+    "existing2.${var.site_domain}",
+    "existing3.${var.site_domain}",
   ]
   validation_method         = "DNS"
 }
@@ -33,7 +33,7 @@ resource "aws_route53_record" "existing" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.public_root_domain.zone_id
+  zone_id         = data.aws_route53_zone.site_domain.zone_id
 }
 resource "aws_acm_certificate_validation" "existing" {
   certificate_arn         = aws_acm_certificate.existing.arn

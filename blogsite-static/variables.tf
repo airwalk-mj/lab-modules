@@ -3,7 +3,7 @@ variable "aws_region" {
   default = "eu-west-2"
 }
 
-variable "public_root_domain" {
+variable "site_domain" {
   default = "lab.airwalkconsulting.com"
 }
 
