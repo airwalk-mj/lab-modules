@@ -36,5 +36,5 @@ variable "default_ttl" {
 }
 
 variable "custom_error_response" {
-  default = "get lost!"
+  default = "err....awkward"
 }
