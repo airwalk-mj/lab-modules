@@ -114,7 +114,7 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
 
 resource "aws_route53_record" "www" {
   zone_id = var.zone_id
-  name    = var.domain
+  name    = "blog-cf"
   type    = "A"
 
   alias {
