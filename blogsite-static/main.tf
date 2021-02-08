@@ -3,15 +3,15 @@ terraform {
 }
 
 resource "aws_s3_bucket" "site" {
-        bucket = "${var.site_domain}"
+        bucket = var.site_domain
       
         website {
-          index_document = "${var.bucket_index_document}"
-          error_document = "${var.bucket_error_document}"
+          index_document = var.bucket_index_document
+          error_document = var.bucket_error_document
         }
       
         logging {
-          target_bucket = "${aws_s3_bucket.site_log_bucket.id}"
+          target_bucket = aws_s3_bucket.site_log_bucket.id
         }
       
         versioning {
@@ -33,8 +33,8 @@ resource "aws_s3_bucket" "site" {
       }
 
       resource "aws_s3_bucket_policy" "site" {
-        bucket = "${aws_s3_bucket.site.id}"
-        policy = "${data.aws_iam_policy_document.site_public_access.json}"
+        bucket = aws_s3_bucket.site.id
+        policy = data.aws_iam_policy_document.site_public_access.json
       }
       
       data "aws_iam_policy_document" "site_public_access" {
@@ -61,7 +61,7 @@ resource "aws_s3_bucket" "site" {
       
       resource "aws_s3_bucket_policy" "redirect_to_apex" {
         bucket = "${aws_s3_bucket.redirect_to_apex.id}"
-        policy = "${data.aws_iam_policy_document.redirect_to_apex.json}"
+        policy = data.aws_iam_policy_document.redirect_to_apex.json
       }
       
       data "aws_iam_policy_document" "redirect_to_apex" {
@@ -97,7 +97,7 @@ provider "aws" {
 resource "aws_acm_certificate" "default" {
   provider = "aws.virginia"
   domain_name = "${var.site_domain}"
-  subject_alternative_names = ["${var.site_domain}", "www.${var.site_domain}"]
+  subject_alternative_names = [var.site_domain, "www.${var.site_domain}"]
   validation_method = "DNS"
 }
 
@@ -127,8 +127,8 @@ resource "aws_acm_certificate_validation" "default" {
   provider = "aws.virginia"
   certificate_arn = "${aws_acm_certificate.default.arn}"
   validation_record_fqdns = [
-    "${dnsimple_record.validation.hostname}",
-    "${dnsimple_record.alt_validation.hostname}"
+    dnsimple_record.validation.hostname,
+    dnsimple_record.alt_validation.hostname
   ]
 }
 
@@ -140,8 +140,8 @@ locals {
       
       resource "aws_cloudfront_distribution" "s3_distribution" {
         origin {
-          domain_name = "${aws_s3_bucket.site.website_endpoint}"
-          origin_id = "${local.s3_origin_id}"
+          domain_name = aws_s3_bucket.site.website_endpoint
+          origin_id = local.s3_origin_id
       
           // The origin must be http even if it's on S3 for redirects to work properly
           // so the website_endpoint is used and http-only as S3 doesn't support https for this
@@ -157,17 +157,17 @@ locals {
       
         enabled = true
         is_ipv6_enabled = true
-        default_root_object = "${var.default_root_object}"
+        default_root_object = var.default_root_object
       
         logging_config {
-          bucket = "${aws_s3_bucket.site_log_bucket.bucket_domain_name}"
+          bucket = aws_s3_bucket.site_log_bucket.bucket_domain_name
           include_cookies = false
         }
       
         default_cache_behavior {
           allowed_methods = ["GET", "HEAD"]
           cached_methods = ["GET", "HEAD"]
-          target_origin_id = "${local.s3_origin_id}"
+          target_origin_id = local.s3_origin_id
       
           "forwarded_values" {
             "cookies" {
@@ -177,14 +177,14 @@ locals {
           }
       
           viewer_protocol_policy = "redirect-to-https"
-          min_ttl = "${var.min_ttl}"
-          max_ttl = "${var.max_ttl}"
-          default_ttl = "${var.default_ttl}"
+          min_ttl = var.min_ttl
+          max_ttl = var.max_ttl
+          default_ttl = var.default_ttl
           compress = true
         }
       
         viewer_certificate {
-          acm_certificate_arn = "${aws_acm_certificate_validation.default.certificate_arn}"
+          acm_certificate_arn = aws_acm_certificate_validation.default.certificate_arn
           ssl_support_method = "sni-only"
           minimum_protocol_version = "TLSv1.1_2016"
         }
@@ -195,13 +195,13 @@ locals {
           }
         }
       
-        custom_error_response  = "${var.custom_error_response}"
+        custom_error_response  = var.custom_error_response
       }
 
 resource "aws_cloudfront_distribution" "redirect_distribution" {
         origin {
-          domain_name = "${aws_s3_bucket.redirect_to_apex.website_endpoint}"
-          origin_id = "${local.s3_origin_id}"
+          domain_name = aws_s3_bucket.redirect_to_apex.website_endpoint
+          origin_id = local.s3_origin_id
       
           // The redirect origin must be http even if it's on S3 for redirects to work properly
           // so the website_endpoint is used and http-only as S3 doesn't support https for this
@@ -221,7 +221,7 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
         default_cache_behavior {
           allowed_methods = ["GET", "HEAD"]
           cached_methods = ["GET", "HEAD"]
-          target_origin_id = "${local.s3_origin_id}"
+          target_origin_id = local.s3_origin_id
       
           "forwarded_values" {
             "cookies" {
@@ -252,17 +252,18 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
 ---
 
 resource "dnsimple_record" "access" {
-        domain = "${var.site_domain}"
+        domain = var.site_domain
         name = ""
         type = "ALIAS"
-        value = "${aws_cloudfront_distribution.s3_distribution.domain_name}"
+        value = aws_cloudfront_distribution.s3_distribution.domain_name
         ttl = "3600"
       }
       
       resource "dnsimple_record" "alt_access" {
-        domain = "${var.site_domain}"
+        domain = var.site_domain
         name = "www"
         type = "CNAME"
-        value = "${aws_cloudfront_distribution.redirect_distribution.domain_name}"
+        value = aws_cloudfront_distribution.redirect_distribution.domain_name
         ttl = "3600"
       }
+  
