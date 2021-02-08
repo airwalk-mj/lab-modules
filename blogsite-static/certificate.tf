@@ -36,7 +36,7 @@ resource "aws_acm_certificate_validation" "default" {
   provider = aws.virginia
   certificate_arn = aws_acm_certificate.default.arn
   validation_record_fqdns = [
-    dnsimple_record.validation.hostname,
-    dnsimple_record.alt_validation.hostname
+    aws_route53_record.validation.hostname,
+    aws_route53_record.alt_validation.hostname
   ]
 }
