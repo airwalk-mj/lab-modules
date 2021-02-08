@@ -116,7 +116,7 @@ resource "aws_route53_record" "access" {
   zone_id = var.zone_id
   name = ""
   type = "ALIAS"
-  value = aws_cloudfront_distribution.s3_distribution.domain_name
+  value = "${aws_cloudfront_distribution.s3_distribution.domain_name}"
   ttl = "3600"
 }
 
@@ -124,6 +124,6 @@ resource "aws_route53_record" "alt_access" {
   domain = var.site_domain
   name = "www"
   type = "CNAME"
-  value = aws_cloudfront_distribution.redirect_distribution.domain_name
+  value = "${aws_cloudfront_distribution.redirect_distribution.domain_name}"
   ttl = "3600"
 }
