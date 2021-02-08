@@ -34,6 +34,6 @@ resource "aws_route53_record" "validation" {
 
 # Wait for Validation
 resource "aws_acm_certificate_validation" "validation" {
-  certificate_arn         = aws_acm_certificate.va;lidation.arn
+  certificate_arn         = aws_acm_certificate.validation.arn
   validation_record_fqdns = [for record in aws_route53_record.validation : record.fqdn]
 }
