@@ -114,7 +114,7 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
 
 resource "aws_route53_record" "access" {
   domain = var.site_domain
-  name = ""s
+  name = ""
   type = "ALIAS"
   value = aws_cloudfront_distribution.s3_distribution.domain_name
   ttl = "3600"
