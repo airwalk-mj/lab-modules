@@ -23,7 +23,7 @@ resource "aws_acm_certificate" "blog" {
   validation_method         = "DNS"
 }
 
-resource "aws_route53_record" "lab" {
+resource "aws_route53_record" "blog" {
   for_each = {
     for dvo in aws_acm_certificate.lab.domain_validation_options: dvo.domain_name => {
       name   = dvo.resource_record_name
@@ -39,7 +39,7 @@ resource "aws_route53_record" "lab" {
   zone_id         = data.aws_route53_zone.site_domain.zone_id
 }
 
-resource "aws_acm_certificate_validation" "lab" {
-  certificate_arn         = aws_acm_certificate.lab.arn
-  validation_record_fqdns = [for record in aws_route53_record.lab: record.fqdn]
+resource "aws_acm_certificate_validation" "blog" {
+  certificate_arn         = aws_acm_certificate.blog.arn
+  validation_record_fqdns = [for record in aws_route53_record.blog: record.fqdn]
 }
