@@ -10,22 +10,22 @@ provider "aws" {
 
 data "aws_route53_zone" "site_domain" {
   name    = var.site_domain
-  zone_id = var.zone_id
+  #zone_id = var.zone_id
 }
 
-resource "aws_acm_certificate" "existing" {
-  domain_name               = "existing.${var.site_domain}"
+resource "aws_acm_certificate" "lab" {
+  domain_name               = "lab.${var.site_domain}"
   subject_alternative_names = [
-    "existing1.${var.site_domain}",
-    "existing2.${var.site_domain}",
-    "existing3.${var.site_domain}",
+    "lab1.${var.site_domain}",
+    "lab2.${var.site_domain}",
+    "lab3.${var.site_domain}",
   ]
   validation_method         = "DNS"
 }
 
-resource "aws_route53_record" "existing" {
+resource "aws_route53_record" "lab" {
   for_each = {
-    for dvo in aws_acm_certificate.existing.domain_validation_options: dvo.domain_name => {
+    for dvo in aws_acm_certificate.lab.domain_validation_options: dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -39,7 +39,7 @@ resource "aws_route53_record" "existing" {
   zone_id         = data.aws_route53_zone.site_domain.zone_id
 }
 
-resource "aws_acm_certificate_validation" "existing" {
-  certificate_arn         = aws_acm_certificate.existing.arn
-  validation_record_fqdns = [for record in aws_route53_record.existing: record.fqdn]
+resource "aws_acm_certificate_validation" "lab" {
+  certificate_arn         = aws_acm_certificate.lab.arn
+  validation_record_fqdns = [for record in aws_route53_record.lab: record.fqdn]
 }
