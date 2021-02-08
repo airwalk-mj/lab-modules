@@ -19,3 +19,18 @@ variable "bucket_error_document" {
   default = "error.html"
 }
 
+variable "default_root_object" {
+  default = "error.html"
+}
+
+variable "min_ttl" {
+  default = "0"
+}
+
+variable "max_ttl" {
+  default = "31536000"
+}
+
+variable "default_ttl" {
+  default = "86400"
+}
