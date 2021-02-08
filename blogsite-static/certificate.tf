@@ -15,7 +15,7 @@ resource "aws_acm_certificate" "default" {
   validation_method = "DNS"
 }
 
-resource "dns_record" "validation" {
+resource "dnsimple_record" "validation" {
   domain = var.site_domain
 
   // remove the apex domain from the resource_record_name otherwise dnsimple errors
@@ -27,7 +27,7 @@ resource "dns_record" "validation" {
   ttl = "60"
 }
 
-resource "dns_record" "alt_validation" {
+resource "dnsimple_record" "alt_validation" {
   domain = var.site_domain
   // remove the apex domain from the resource_record_name otherwise dnsimple errors
   name  = replace(aws_acm_certificate.default.domain_validation_options.1.resource_record_name, ".${var.site_domain}.", "")
@@ -43,7 +43,7 @@ resource "aws_acm_certificate_validation" "default" {
   provider = aws.virginia
   certificate_arn = aws_acm_certificate.default.arn
   validation_record_fqdns = [
-    dns_record.validation.hostname,
-    dns_record.alt_validation.hostname
+    dnsimple_record.validation.hostname,
+    dnsimple_record.alt_validation.hostname
   ]
 }
