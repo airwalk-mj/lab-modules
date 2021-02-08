@@ -4,7 +4,11 @@ variable "aws_region" {
 }
 
 variable "site_domain" {
-  default = "airwalkconsulting.com"
+  default = "lab.airwalkconsulting.com"
+}
+
+variable "zone_id" {
+  default = "Z064458838N2OGDPML4NA"
 }
 
 variable "bucket_index_document" {
