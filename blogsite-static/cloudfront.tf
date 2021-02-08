@@ -34,7 +34,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     cached_methods = ["GET", "HEAD"]
     target_origin_id = "${local.s3_origin_id}"
 
-    "forwarded_values" {
+    forwarded_values {
       "cookies" {
         forward = "none"
       }
