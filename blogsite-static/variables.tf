@@ -20,7 +20,7 @@ variable "bucket_error_document" {
 }
 
 variable "default_root_object" {
-  default = "error.html"
+  default = "index.html"
 }
 
 variable "min_ttl" {
