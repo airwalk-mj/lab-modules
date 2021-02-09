@@ -8,9 +8,9 @@ provider "aws" {
   region  = var.aws_region
 }
 
-provider "random" {
-  version = "~> 2.3"
-}
+#provider "random" {
+#  version = "~> 2.3"
+#}
 
 resource "aws_s3_bucket" "site" {
   bucket = var.site_domain

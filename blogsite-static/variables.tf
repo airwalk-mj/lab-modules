@@ -16,7 +16,7 @@ variable "bucket_index_document" {
 }
 
 variable "bucket_error_document" {
-  default = "error.html"
+  default = "404.html"
 }
 
 variable "default_root_object" {
