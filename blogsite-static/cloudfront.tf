@@ -13,15 +13,22 @@ data "aws_route53_zone" "my_zone" {
   zone_id = var.zone_id
 }
 
+
 ######## I am a CERT !!!
 resource "aws_acm_certificate" "blog" {
   provider                  = aws.virginia
-  domain_name               = "blog.${var.site_domain}"
+  domain_name               = var.site_domain
   subject_alternative_names = [
     "blog.${var.site_domain}",
     "www.blog.${var.site_domain}",
   ]
   validation_method         = "DNS"
+}
+
+resource "aws_acm_certificate_validation" "blog" {
+  provider                = aws.virginia
+  certificate_arn         = aws_acm_certificate.blog.arn
+  validation_record_fqdns = [for record in aws_route53_record.blog: record.fqdn]
 }
 
 resource "aws_route53_record" "blog" {
@@ -40,15 +47,6 @@ resource "aws_route53_record" "blog" {
   type            = each.value.type
   zone_id         = data.aws_route53_zone.my_zone.zone_id
 }
-
-resource "aws_acm_certificate_validation" "blog" {
-  provider                = aws.virginia
-  certificate_arn         = aws_acm_certificate.blog.arn
-  validation_record_fqdns = [for record in aws_route53_record.blog: record.fqdn]
-}
-
-
-
 
 
 resource "aws_cloudfront_distribution" "s3_distribution" {  
