@@ -158,7 +158,7 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
   }
 }
 
-resource "aws_route53_record" "blog" {
+resource "aws_route53_record" "www" {
   zone_id = var.zone_id
   name    = "blog.${var.site_domain}"
   type    = "A"
