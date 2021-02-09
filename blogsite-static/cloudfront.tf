@@ -16,14 +16,12 @@ data "aws_route53_zone" "my_zone" {
 resource "aws_acm_certificate" "blog" {
   provider                  = aws.virginia
   domain_name               = "blog.${var.site_domain}"
-  subject_alternative_names = [
-    "*.blog.${var.site_domain}",
-  ]
+  subject_alternative_names = var.subject_alt_names
   validation_method         = "DNS"
 }
 
 resource "aws_route53_record" "blog" {
-  provider                  = aws.virginia
+  provider = aws.virginia
   for_each = {
     for dvo in aws_acm_certificate.blog.domain_validation_options: dvo.domain_name => {
       name   = dvo.resource_record_name
