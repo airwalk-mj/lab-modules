@@ -95,7 +95,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
     ssl_support_method = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2019"
+    minimum_protocol_version = var.minimum_protocol_version
   }
 
   restrictions {
@@ -138,15 +138,15 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
     }
 
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl = 0
-    max_ttl = 31536000
-    default_ttl = 86400
+    min_ttl = var.min_ttl
+    max_ttl = var.max_ttl
+    default_ttl = var.default_ttl
   }
 
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
     ssl_support_method = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2019"
+    minimum_protocol_version = var.minimum_protocol_version
   }
 
   restrictions {

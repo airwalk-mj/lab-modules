@@ -42,3 +42,7 @@ variable "custom_error_response" {
 variable "app_path" {
   default = "my-app"
 }
+
+variable "minimum_protocol_version" {
+  default = "TLSv1.2_2019"
+}
