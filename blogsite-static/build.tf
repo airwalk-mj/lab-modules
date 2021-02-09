@@ -1,0 +1,16 @@
+
+resource "null_resource" "build" {
+  provisioner "local-exec" {
+    command = "cd ${var.app_path} && npm i && npm run build"
+  }
+
+  depends_on = [aws_s3_bucket.site]
+}
+
+resource "null_resource" "deploy" {
+  provisioner "local-exec" {
+    command = "aws s3 sync ${var.app_path}/out/ s3://${var.bucket_name}"
+  }
+
+  depends_on = [null_resource.build]
+}

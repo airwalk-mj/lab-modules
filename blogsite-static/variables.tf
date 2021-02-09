@@ -38,3 +38,7 @@ variable "default_ttl" {
 variable "custom_error_response" {
   default = "err....awkward"
 }
+
+variable "app_path" {
+  default = "my-app"
+}
