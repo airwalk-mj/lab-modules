@@ -17,6 +17,7 @@ resource "aws_acm_certificate" "blog" {
   provider                  = aws.virginia
   domain_name               = "blog.${var.site_domain}"
   subject_alternative_names = [
+    "www.${var.site_domain}",
     "blog.${var.site_domain}",
     "www.blog.${var.site_domain}",
   ]
