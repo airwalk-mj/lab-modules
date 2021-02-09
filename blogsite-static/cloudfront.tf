@@ -18,7 +18,7 @@ resource "aws_acm_certificate" "blog" {
   domain_name               = "blog.${var.site_domain}"
   subject_alternative_names = [
     "blog.${var.site_domain}",
-    "www.${var.site_domain}",
+    "www.blog.${var.site_domain}",
   ]
   validation_method         = "DNS"
 }
@@ -95,7 +95,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
     ssl_support_method = "sni-only"
-    minimum_protocol_version = "TLSv1.1_2016"
+    minimum_protocol_version = "TLSv1.2_2019"
   }
 
   restrictions {
@@ -146,7 +146,7 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
     ssl_support_method = "sni-only"
-    minimum_protocol_version = "TLSv1.1_2016"
+    minimum_protocol_version = "TLSv1.2_2019"
   }
 
   restrictions {
