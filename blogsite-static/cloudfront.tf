@@ -16,11 +16,7 @@ data "aws_route53_zone" "my_zone" {
 resource "aws_acm_certificate" "blog" {
   provider                  = aws.virginia
   domain_name               = "blog.${var.site_domain}"
-  subject_alternative_names = [
-    "blog1.${var.site_domain}",
-    "blog2.${var.site_domain}",
-    "blog3.${var.site_domain}",
-  ]
+  subject_alternative_names = ["*.${var.site_domain}"]
   validation_method         = "DNS"
 }
 
