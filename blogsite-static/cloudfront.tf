@@ -25,6 +25,7 @@ resource "aws_acm_certificate" "blog" {
 }
 
 resource "aws_route53_record" "blog" {
+  provider                  = aws.virginia
   for_each = {
     for dvo in aws_acm_certificate.blog.domain_validation_options: dvo.domain_name => {
       name   = dvo.resource_record_name
@@ -41,6 +42,7 @@ resource "aws_route53_record" "blog" {
 }
 
 resource "aws_acm_certificate_validation" "blog" {
+  provider                = aws.virginia
   certificate_arn         = aws_acm_certificate.blog.arn
   validation_record_fqdns = [for record in aws_route53_record.blog: record.fqdn]
 }
