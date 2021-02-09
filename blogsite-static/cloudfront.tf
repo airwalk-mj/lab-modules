@@ -62,7 +62,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  aliases = [var.site_domain, var.wwwdomain]
+  aliases = [var.site_domain]
 
   enabled = true
   is_ipv6_enabled = true
