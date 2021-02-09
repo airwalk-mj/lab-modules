@@ -4,6 +4,9 @@ locals {
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
+  
+  depends_on = [aws_acm_certificate.blog]
+  
   origin {
     domain_name = aws_s3_bucket.site.website_endpoint
     origin_id = local.s3_origin_id
@@ -49,7 +52,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.blog.certificate_arn
     ssl_support_method = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
@@ -100,7 +103,7 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
+    acm_certificate_arn = aws_acm_certificate.blog.certificate_arn
     ssl_support_method = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
