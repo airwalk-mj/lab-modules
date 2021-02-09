@@ -103,7 +103,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       restriction_type = "none"
     }
   }
-  depends_on = [aws_acm_certificate.domain, aws_acm_certificate.wwwdomain]
 }
 
 resource "aws_cloudfront_distribution" "redirect_distribution" {
