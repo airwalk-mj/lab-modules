@@ -13,11 +13,11 @@ data "aws_route53_zone" "my_zone" {
   zone_id = var.zone_id
 }
 
+######## I am a CERT !!!
 resource "aws_acm_certificate" "blog" {
   provider                  = aws.virginia
   domain_name               = "blog.${var.site_domain}"
   subject_alternative_names = [
-    "www.${var.site_domain}",
     "blog.${var.site_domain}",
     "www.blog.${var.site_domain}",
   ]
@@ -47,8 +47,11 @@ resource "aws_acm_certificate_validation" "blog" {
   validation_record_fqdns = [for record in aws_route53_record.blog: record.fqdn]
 }
 
-resource "aws_cloudfront_distribution" "s3_distribution" {
-  
+
+
+
+
+resource "aws_cloudfront_distribution" "s3_distribution" {  
   origin {
     domain_name = aws_s3_bucket.site.website_endpoint
     origin_id = local.s3_origin_id
