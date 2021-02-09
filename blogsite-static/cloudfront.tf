@@ -62,7 +62,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  aliases = [var.site_domain]
+  aliases = [var.site_domain, var.wwwdomain]
 
   enabled = true
   is_ipv6_enabled = true
@@ -103,6 +103,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       restriction_type = "none"
     }
   }
+  depends_on = [aws_acm_certificate.domain, aws_acm_certificate.wwwdomain]
 }
 
 resource "aws_cloudfront_distribution" "redirect_distribution" {
@@ -158,7 +159,7 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
 
 resource "aws_route53_record" "www" {
   zone_id = var.zone_id
-  name    = "blog-cf"
+  name    = "blog.${var.site_domain}"
   type    = "A"
 
   alias {
