@@ -8,7 +8,7 @@ variable "site_domain" {
 }
 
 variable "subject_alt_names" {
-  default = "*.lab.airwalkconsulting.io"
+  default = "blog.lab.airwalkconsulting.io, www.blog.lab.airwalkconsulting.io"
 }
 
 variable "zone_id" {
