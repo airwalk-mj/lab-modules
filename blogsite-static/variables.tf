@@ -7,6 +7,10 @@ variable "site_domain" {
   default = "lab.airwalkconsulting.io"
 }
 
+variable "subject_alt_names" {
+  default = "*.lab.airwalkconsulting.io"
+}
+
 variable "zone_id" {
   default = "Z064458838N2OGDPML4NA"
 }
