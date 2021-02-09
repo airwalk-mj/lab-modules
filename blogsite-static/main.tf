@@ -8,6 +8,10 @@ provider "aws" {
   region  = var.aws_region
 }
 
+provider "null" {
+  version = "~> 3.0.0"
+}
+
 #provider "random" {
 #  version = "~> 2.3"
 #}
