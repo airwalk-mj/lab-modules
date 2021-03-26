@@ -21,6 +21,7 @@ resource "aws_acm_certificate" "blog" {
   subject_alternative_names = [
     "blog.${var.site_domain}",
     "www.blog.${var.site_domain}",
+    "*.cloudfront.net"
   ]
   validation_method         = "DNS"
 }
