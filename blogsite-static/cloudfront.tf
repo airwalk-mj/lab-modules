@@ -67,7 +67,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   aliases = ["blog.${var.site_domain}", "www.blog.${var.site_domain}"]
 
   enabled = true
-  is_ipv6_enabled = true
+  is_ipv6_enabled = false
   default_root_object = var.default_root_object
 
   logging_config {
