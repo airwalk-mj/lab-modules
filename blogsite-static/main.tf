@@ -7,7 +7,8 @@ terraform {
   required_version = ">= 0.13.4"
   required_providers {
     aws = {
-      version = ">= 3.27.0"
+      region  = var.aws_region
+      version = ">= 3.34.0"
       source = "hashicorp/aws"
     }
     null = {
