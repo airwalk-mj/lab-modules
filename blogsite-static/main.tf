@@ -6,15 +6,14 @@ terraform {
       source = "hashicorp/aws"
       version = "~> 3.27.0"
     }
+    null = {
+      version = "~> 3.0.0"
+    }
   }
 }
 
 provider "aws" {
   region  = var.aws_region
-}
-
-provider "null" {
- version = "~> 3.0.0"
 }
 
 #provider "random" {
