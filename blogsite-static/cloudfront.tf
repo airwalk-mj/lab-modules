@@ -163,10 +163,9 @@ resource "aws_cloudfront_distribution" "redirect_distribution" {
   }
 }
 
-resource "aws_route53_record" "www" {
+resource "aws_route53_record" "blog" {
   zone_id = var.zone_id
-  #name    = "blog.${var.site_domain}"
-  name    = "www.${var.site_domain}"
+  name    = "blog.${var.site_domain}"
   type    = "A"
 
   alias {
@@ -174,6 +173,18 @@ resource "aws_route53_record" "www" {
     zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
     evaluate_target_health = true
   }
-
+  depends_on = [aws_cloudfront_distribution.s3_distribution]
+}
+  
+  
+resource "aws_route53_record" "www" {
+  zone_id = var.zone_id
+  name    = "www.blog.${var.site_domain}"
+  type    = "A"
+  alias {
+    name                   = replace(aws_cloudfront_distribution.s3_distribution.domain_name, "/[.]$/", "")
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = true
+  }
   depends_on = [aws_cloudfront_distribution.s3_distribution]
 }
