@@ -10,6 +10,9 @@ terraform {
       version = ">= 3.27.0"
       source = "hashicorp/aws"
     }
+    null = {
+      version = "~> 3.0.0"
+    }
   }
 }
 
@@ -18,9 +21,9 @@ terraform {
 #  region  = var.aws_region
 #}
 
-provider "null" {
-  version = "~> 3.0.0"
-}
+#provider "null" {
+#  version = "~> 3.0.0"
+#}
 
 #provider "random" {
 #  version = "~> 2.3"
