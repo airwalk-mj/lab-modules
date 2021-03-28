@@ -1,12 +1,22 @@
 
+#terraform {
+#  required_version = ">= 0.13.4"
+#}
+
 terraform {
   required_version = ">= 0.13.4"
+  required_providers {
+    aws = {
+      version = ">= 3.27.0"
+      source = "hashicorp/aws"
+    }
+  }
 }
 
-provider "aws" {
-  version = "~> 3.27.0"
-  region  = var.aws_region
-}
+#provider "aws" {
+#  version = "~> 3.27.0"
+#  region  = var.aws_region
+#}
 
 provider "null" {
   version = "~> 3.0.0"
