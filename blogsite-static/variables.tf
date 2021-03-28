@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 variable "site_domain" {
-  default = "blog.lab.airwalkconsulting.io"
+  default = "lab.airwalkconsulting.io"
 }
 
 variable "zone_id" {
