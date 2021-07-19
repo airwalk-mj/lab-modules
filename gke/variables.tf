@@ -1,6 +1,6 @@
 
 variable "project" {
-  default = "demo-project"
+  default = "Sandbox - Mark James"
 }
 
 variable "cluster_name" {
@@ -12,7 +12,7 @@ variable "node_count" {
 }
 
 variable "max_node_count" {
-  default = 3
+  default = 1
 }
 
 variable "min_node_count" {
@@ -36,18 +36,18 @@ variable "disk_size_gb" {
 }
 
 variable "master_zone" {
-  default = "europe-west1-b"
+  default = "europe-west2"
 }
 
 variable "additional_zones" {
   default = [
-    "europe-west1-c",
-    "europe-west1-d",
+    "europe-west2-c",
+    "europe-west2-d",
   ]
 }
 
 variable "min_master_version" {
-  default = "0.18.0-gke.5"
+  default = "0.19.0-gke.5"
 }
 
 #variable "initial_default_pool_name" {
