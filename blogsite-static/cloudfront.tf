@@ -75,10 +75,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   is_ipv6_enabled = false
   default_root_object = var.default_root_object
 
-  logging_config {
-    bucket = aws_s3_bucket.site_log_bucket.bucket_domain_name
-    include_cookies = false
-  }
+  #logging_config {
+  #  bucket = aws_s3_bucket.site_log_bucket.bucket_domain_name
+  #  include_cookies = false
+  #}
 
   default_cache_behavior {
     allowed_methods = ["GET", "HEAD"]
@@ -112,56 +112,56 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 }
 
-resource "aws_cloudfront_distribution" "redirect_distribution" {
-  origin {
-    domain_name = aws_s3_bucket.redirect_to_apex.website_endpoint
-    origin_id = local.s3_origin_id
+#resource "aws_cloudfront_distribution" "redirect_distribution" {
+#  origin {
+#    domain_name = aws_s3_bucket.redirect_to_apex.website_endpoint
+#    origin_id = local.s3_origin_id
 
     // The redirect origin must be http even if it's on S3 for redirects to work properly
     // so the website_endpoint is used and http-only as S3 doesn't support https for this
-    custom_origin_config {
-      http_port = 80
-      https_port = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols = ["TLSv1.2"]
-    }
-  }
+#    custom_origin_config {
+#      http_port = 80
+#      https_port = 443
+#      origin_protocol_policy = "http-only"
+#      origin_ssl_protocols = ["TLSv1.2"]
+#    }
+#  }
 
-  aliases = ["www.${var.site_domain}"]
+#  aliases = ["www.${var.site_domain}"]
 
-  enabled = true
-  is_ipv6_enabled = true
+#  enabled = true
+#  is_ipv6_enabled = true
 
-  default_cache_behavior {
-    allowed_methods = ["GET", "HEAD"]
-    cached_methods = ["GET", "HEAD"]
-    target_origin_id = local.s3_origin_id
+#  default_cache_behavior {
+#    allowed_methods = ["GET", "HEAD"]
+#    cached_methods = ["GET", "HEAD"]
+#    target_origin_id = local.s3_origin_id
 
-    forwarded_values {
-      cookies {
-        forward = "none"
-      }
-      query_string = false
-    }
+#    forwarded_values {
+#      cookies {
+#        forward = "none"
+#      }
+#      query_string = false
+#    }
 
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl = var.min_ttl
-    max_ttl = var.max_ttl
-    default_ttl = var.default_ttl
-  }
+#    viewer_protocol_policy = "redirect-to-https"
+#    min_ttl = var.min_ttl
+#    max_ttl = var.max_ttl
+#    default_ttl = var.default_ttl
+#  }
 
-  viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
-    ssl_support_method = "sni-only"
-    minimum_protocol_version = var.minimum_protocol_version
-  }
+#  viewer_certificate {
+#    acm_certificate_arn = aws_acm_certificate_validation.blog.certificate_arn
+#    ssl_support_method = "sni-only"
+#    minimum_protocol_version = var.minimum_protocol_version
+#  }
 
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
-}
+#  restrictions {
+#    geo_restriction {
+#      restriction_type = "none"
+#    }
+#  }
+#}
 
 resource "aws_route53_record" "blog-cf" {
   zone_id = var.zone_id
