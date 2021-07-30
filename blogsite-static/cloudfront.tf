@@ -19,9 +19,9 @@ resource "aws_acm_certificate" "blog" {
   provider                  = aws.virginia
   domain_name               = var.site_domain
   subject_alternative_names = [
-    "blog.${var.site_domain}",
-    "www.blog.${var.site_domain}",
-    "*.${var.site_domain}"
+    #"blog.${var.site_domain}",
+    #"www.blog.${var.site_domain}",
+    #"*.${var.site_domain}"
   ]
   validation_method         = "DNS"
   
@@ -52,7 +52,6 @@ resource "aws_route53_record" "blog" {
   type            = each.value.type
   zone_id         = data.aws_route53_zone.my_zone.zone_id
 }
-
 
 resource "aws_cloudfront_distribution" "s3_distribution" {  
   origin {
