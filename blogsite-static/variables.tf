@@ -40,7 +40,7 @@ variable "custom_error_response" {
 }
 
 variable "app_path" {
-  default = "blog"
+  default = "/"
 }
 
 variable "minimum_protocol_version" {
