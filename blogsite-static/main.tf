@@ -19,7 +19,10 @@ resource "aws_s3_bucket_policy" "blog" {
         Effect    = "Allow"
         Principal = "*"
         Action    = "s3:GetObject"
-        Resource  = aws_s3_bucket.blog.arn, "${aws_s3_bucket.blog.arn}/*"
+        Resource = [
+          aws_s3_bucket.blog.arn,
+          "${aws_s3_bucket.blog.arn}/*",
+        ]
       },
     ]
   })
