@@ -44,5 +44,5 @@ variable "app_path" {
 }
 
 variable "minimum_protocol_version" {
-  default = "TLSv1.2_2019"
+  default = "TLSv1.2_2021"
 }
