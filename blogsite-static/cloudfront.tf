@@ -56,7 +56,7 @@ resource "aws_route53_record" "blog" {
 
 resource "aws_cloudfront_distribution" "s3_distribution" {  
   origin {
-    domain_name = aws_s3_bucket.site.website_endpoint
+    domain_name = aws_s3_bucket.blog.website_endpoint
     origin_id = local.s3_origin_id
 
     // The origin must be http even if it's on S3 for redirects to work properly
