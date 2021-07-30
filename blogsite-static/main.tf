@@ -3,10 +3,10 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "blog" {
-  bucket = "blog.airwalkconsulting.io"
+  bucket = var.site_domain
   acl    = "public-read"
   tags = {
-    Name        = "blog.airwalkconsulting.io"
+    Name        = var.site_domain
     Environment = "Dev"
   }
 }

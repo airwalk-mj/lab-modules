@@ -13,7 +13,6 @@ data "aws_route53_zone" "my_zone" {
   zone_id = var.zone_id
 }
 
-
 ######## I am a CERT !!!
 resource "aws_acm_certificate" "blog" {
   provider                  = aws.virginia
