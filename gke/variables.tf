@@ -1,6 +1,6 @@
 
 variable "project" {
-  default = "Sandbox - Mark James"
+  default = "sandbox-mark-james"
 }
 
 variable "cluster_name" {
