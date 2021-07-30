@@ -68,7 +68,7 @@ data "aws_iam_policy_document" "site_public_access" {
   }
 
   statement {
-    actions = ["s3:ListBucket"]
+    actions = ["s3:GetObject"]
     resources = [aws_s3_bucket.site.arn]
 
     principals {
@@ -95,7 +95,7 @@ data "aws_iam_policy_document" "redirect_to_apex" {
   }
 
   statement {
-    actions = ["s3:ListBucket"]
+    actions = ["s3:GetObject"]
     resources = [aws_s3_bucket.redirect_to_apex.arn]
 
     principals {
