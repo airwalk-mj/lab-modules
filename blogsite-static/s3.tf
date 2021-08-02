@@ -27,10 +27,33 @@ resource "aws_s3_bucket" "blog" {
 #  acl    = "private"
 #}
 
-data "aws_iam_policy_document" "blog_s3_policy" {
+#data "aws_iam_policy_document" "blog_s3_policy" {
+#  statement {
+#    actions = ["s3:GetObject"]
+#    resources = ["${aws_s3_bucket.blog.arn}/*"]
+
+#    principals {
+#      type = "AWS"
+#      identifiers = ["*"]
+#    }
+#  }
+#}
+
+
+data "aws_iam_policy_document" "blog_public_access" {
   statement {
     actions = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.blog.arn}/*"]
+    resources = ["${aws_s3_bucket.site.arn}/*"]
+
+    principals {
+      type = "AWS"
+      identifiers = ["*"]
+    }
+  }
+
+  statement {
+    actions = ["s3:GetObject"]
+    resources = [aws_s3_bucket.blog.arn]
 
     principals {
       type = "AWS"
@@ -41,12 +64,16 @@ data "aws_iam_policy_document" "blog_s3_policy" {
 
 resource "aws_s3_bucket_policy" "blog" {
   bucket = aws_s3_bucket.blog.id
-  policy = data.aws_iam_policy_document.blog_s3_policy.json
+  policy = data.aws_iam_policy_document.blog_public_access.json
 }
+
+#resource "aws_s3_bucket_policy" "blog" {
+#  bucket = aws_s3_bucket.blog.id
+#  policy = data.aws_iam_policy_document.blog_s3_policy.json
+#}
 
 locals {
   s3_origin_id = "blogs3origin"
 }
 
-resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-}
+resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {}
