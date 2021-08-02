@@ -3,11 +3,11 @@ resource "aws_s3_bucket" "blog" {
   bucket = var.site_domain
   acl    = "private"
 
-  cors_rule {
-    allowed_headers = ["Authorization", "Content-Length"]
-    allowed_methods = ["GET"]
-    allowed_origins = ["https://${var.site_domain}"]
-    max_age_seconds = 3000
+  #cors_rule {
+  #  allowed_headers = ["Authorization", "Content-Length"]
+  #  allowed_methods = ["GET"]
+  #  allowed_origins = ["https://${var.site_domain}"]
+  #  max_age_seconds = 3000
   }
 
   website {
