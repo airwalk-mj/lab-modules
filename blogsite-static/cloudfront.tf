@@ -20,7 +20,7 @@ resource "aws_cloudfront_distribution" "blog" {
   #  include_cookies = false
   #  bucket          = aws_s3_bucket.logs.bucket_domain_name
   #  prefix          = ""
-  }
+  #}
 
   aliases = [var.site_domain]
 
