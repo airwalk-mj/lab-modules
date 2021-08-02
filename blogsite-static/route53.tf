@@ -1,9 +1,9 @@
-resource "aws_route53_zone" "main" {
-  name = var.site_domain
-}
+#resource "aws_route53_zone" "main" {
+#  name = var.site_domain
+#}
 
 resource "aws_route53_record" "root-a" {
-  zone_id = aws_route53_zone.main.zone_id
+  zone_id = var.zone_id
   name    = var.site_domain
   type    = "A"
 
