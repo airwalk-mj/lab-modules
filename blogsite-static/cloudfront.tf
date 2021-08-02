@@ -1,8 +1,3 @@
-# Certificate for cloudfront MUST be in us-east-1
-#provider "aws" {
-#  alias = "virginia"
-#}
-##  region = "us-east-1"
 
 resource "aws_cloudfront_distribution" "blog" {
 
