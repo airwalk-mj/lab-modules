@@ -21,10 +21,10 @@ resource "aws_cloudfront_distribution" "blog" {
   is_ipv6_enabled     = false
   default_root_object = "index.html"
 
-  logging_config {
-    include_cookies = false
-    bucket          = aws_s3_bucket.logs.bucket_domain_name
-    prefix          = ""
+  #logging_config {
+  #  include_cookies = false
+  #  bucket          = aws_s3_bucket.logs.bucket_domain_name
+  #  prefix          = ""
   }
 
   aliases = [var.site_domain]
