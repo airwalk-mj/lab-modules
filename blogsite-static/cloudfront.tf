@@ -78,7 +78,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       origin_protocol_policy = "http-only"
       origin_ssl_protocols = ["TLSv1.2"]
     }
-
+  }
+  
   default_root_object = var.default_root_object
   enabled = true
 
@@ -100,11 +101,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     default_ttl = var.default_ttl
     compress = true
   }
-
-
-
-
-
 
   aliases = ["blog.${var.site_domain}", "www.blog.${var.site_domain}"]
 
