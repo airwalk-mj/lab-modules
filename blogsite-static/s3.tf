@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "blog" {
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
     allowed_methods = ["GET"]
-    allowed_origins = ["https://${var.site_name}"]
+    allowed_origins = ["https://${var.site_domain}"]
     max_age_seconds = 3000
   }
 
