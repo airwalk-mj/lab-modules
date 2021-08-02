@@ -1,7 +1,7 @@
 
 terraform {
   required_version = ">= 0.13.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -9,10 +9,6 @@ terraform {
     }
   }
 }
-
-#terraform {
-#  required_version = ">= 0.13.0"
-#}
 
 # create a non-aliased provider along with the aliased providers
 provider "aws" {
