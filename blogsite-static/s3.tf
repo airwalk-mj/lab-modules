@@ -27,30 +27,7 @@ resource "aws_s3_bucket" "blog" {
 #  acl    = "private"
 #}
 
-#data "aws_iam_policy_document" "blog_s3_policy" {
-#  statement {
-#    actions = ["s3:GetObject"]
-#    resources = ["${aws_s3_bucket.blog.arn}/*"]
-
-#    principals {
-#      type = "AWS"
-#      identifiers = ["*"]
-#    }
-#  }
-#}
-
-
-data "aws_iam_policy_document" "public_access" {
-  statement {
-    actions = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.blog.arn}/*"]
-
-    principals {
-      type = "AWS"
-      identifiers = ["*"]
-    }
-  }
-
+data "aws_iam_policy_document" "blog_s3_policy" {
   statement {
     actions = ["s3:GetObject"]
     resources = [aws_s3_bucket.blog.arn]
@@ -60,17 +37,49 @@ data "aws_iam_policy_document" "public_access" {
       identifiers = ["*"]
     }
   }
+  statement {
+    actions = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.blog.arn}/*"]
+
+    principals {
+      type = "AWS"
+      identifiers = ["*"]
+    }
+  }
 }
 
-resource "aws_s3_bucket_policy" "blog" {
-  bucket = aws_s3_bucket.blog.id
-  policy = data.aws_iam_policy_document.public_access.json
-}
+
+#data "aws_iam_policy_document" "public_access" {
+#  statement {
+#    actions = ["s3:GetObject"]
+#    resources = ["${aws_s3_bucket.blog.arn}/*"]
+
+#    principals {
+#      type = "AWS"
+#      identifiers = ["*"]
+#    }
+#  }
+
+#  statement {
+#    actions = ["s3:GetObject"]
+#    resources = [aws_s3_bucket.blog.arn]
+
+#    principals {
+#      type = "AWS"
+#      identifiers = ["*"]
+#    }
+#  }
+#}
 
 #resource "aws_s3_bucket_policy" "blog" {
 #  bucket = aws_s3_bucket.blog.id
-#  policy = data.aws_iam_policy_document.blog_s3_policy.json
+#  policy = data.aws_iam_policy_document.public_access.json
 #}
+
+resource "aws_s3_bucket_policy" "blog" {
+  bucket = aws_s3_bucket.blog.id
+  policy = data.aws_iam_policy_document.blog_s3_policy.json
+}
 
 locals {
   s3_origin_id = "blogs3origin"
