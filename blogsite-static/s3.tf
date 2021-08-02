@@ -11,10 +11,14 @@ resource "aws_s3_bucket" "blog" {
   }
 
   website {
-    index_document = "index.html"
-    error_document = "404.html"
+    index_document = var.bucket_index_document
+    error_document = var.bucket_error_document
   }
 }
+
+  versioning {
+    enabled = false
+  }
 
 ## Also uncomment logging_config in cloudfront.tf
 #resource "aws_s3_bucket" "logs" {
@@ -24,22 +28,12 @@ resource "aws_s3_bucket" "blog" {
 
 data "aws_iam_policy_document" "blog_s3_policy" {
   statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.blog.arn}/*"]
+    actions = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.site.arn}/*"]
 
     principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
-    }
-  }
-
-  statement {
-    actions   = ["s3:ListBucket"]
-    resources = [aws_s3_bucket.blog.arn]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
+      type = "AWS"
+      identifiers = ["*"]
     }
   }
 }
