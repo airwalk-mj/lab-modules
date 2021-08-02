@@ -39,7 +39,7 @@ resource "aws_cloudfront_distribution" "blog" {
     compress = true
     viewer_protocol_policy = "allow-all"
     min_ttl                = var.min_ttl
-    default_ttl            = 3600
+    default_ttl            = var.default_ttl
     max_ttl                = var.max_ttl
   }
 

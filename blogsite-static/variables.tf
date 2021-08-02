@@ -35,13 +35,13 @@ variable "default_ttl" {
   default = "86400"
 }
 
-variable "custom_error_response" {
-  default = "err....awkward"
-}
+#variable "custom_error_response" {
+#  default = "err....awkward"
+#}
 
-variable "app_path" {
-  default = "/"
-}
+#variable "app_path" {
+#  default = "/"
+#}
 
 variable "minimum_protocol_version" {
   default = "TLSv1.2_2021"
