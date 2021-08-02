@@ -40,7 +40,7 @@ resource "aws_s3_bucket" "blog" {
 #}
 
 
-data "aws_iam_policy_document" "blog_public_access" {
+data "aws_iam_policy_document" "public_access" {
   statement {
     actions = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.blog.arn}/*"]
@@ -64,7 +64,7 @@ data "aws_iam_policy_document" "blog_public_access" {
 
 resource "aws_s3_bucket_policy" "blog" {
   bucket = aws_s3_bucket.blog.id
-  policy = data.aws_iam_policy_document.blog_public_access.json
+  policy = data.aws_iam_policy_document.public_access.json
 }
 
 #resource "aws_s3_bucket_policy" "blog" {
