@@ -1,15 +1,29 @@
 
+locals {
+  s3_origin_id = "S3-${var.site_domain}"
+}
+
 resource "aws_cloudfront_distribution" "blog" {
 
   provider = aws.use1
 
   origin {
-    domain_name = aws_s3_bucket.blog.bucket_regional_domain_name
+    #domain_name = aws_s3_bucket.blog.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.blog.website_endpoint
     origin_id   = local.s3_origin_id
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+    // The origin must be http even if it's on S3 for redirects to work properly
+    // so the website_endpoint is used and http-only as S3 doesn't support https for this
+    custom_origin_config {
+      http_port = 80
+      https_port = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols = ["TLSv1.2"]
     }
+
+    #s3_origin_config {
+    #  origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+    #}
   }
 
   enabled             = true
