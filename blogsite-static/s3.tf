@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "blog" {
   #  allowed_methods = ["GET"]
   #  allowed_origins = ["https://${var.site_domain}"]
   #  max_age_seconds = 3000
-  }
+  #}
 
   website {
     index_document = var.bucket_index_document
