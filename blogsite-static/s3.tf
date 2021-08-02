@@ -71,9 +71,3 @@ resource "aws_s3_bucket_policy" "blog" {
   bucket = aws_s3_bucket.blog.id
   policy = data.aws_iam_policy_document.blog_s3_policy.json
 }
-
-locals {
-  s3_origin_id = "blogs3origin"
-}
-
-resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {}
