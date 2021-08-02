@@ -11,7 +11,7 @@ terraform {
       version = "~> 3.52.0"
     }
   }
-
+}
 
 # create a non-aliased provider along with the aliased providers
 provider "aws" {
