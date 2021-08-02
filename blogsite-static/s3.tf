@@ -30,7 +30,7 @@ resource "aws_s3_bucket" "blog" {
 data "aws_iam_policy_document" "blog_s3_policy" {
   statement {
     actions = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.site.arn}/*"]
+    resources = ["${aws_s3_bucket.blog.arn}/*"]
 
     principals {
       type = "AWS"
