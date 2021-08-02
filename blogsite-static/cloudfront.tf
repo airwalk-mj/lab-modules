@@ -14,7 +14,7 @@ resource "aws_cloudfront_distribution" "blog" {
 
   enabled             = true
   is_ipv6_enabled     = false
-  default_root_object = "index.html"
+  default_root_object = var.default_root_object
 
   #logging_config {
   #  include_cookies = false
@@ -38,9 +38,9 @@ resource "aws_cloudfront_distribution" "blog" {
     }
     compress = true
     viewer_protocol_policy = "allow-all"
-    min_ttl                = 0
+    min_ttl                = var.min_ttl
     default_ttl            = 3600
-    max_ttl                = 86400
+    max_ttl                = var.max_ttl
   }
 
   restrictions {
@@ -54,6 +54,6 @@ resource "aws_cloudfront_distribution" "blog" {
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.cert.arn
     ssl_support_method = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2021"
+    minimum_protocol_version = var.minimum_protocol_version
   }
 }
