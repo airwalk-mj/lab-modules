@@ -1,3 +1,4 @@
+
 resource "aws_s3_bucket" "blog" {
   bucket = var.site_domain
   acl    = "private"

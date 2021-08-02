@@ -1,4 +1,13 @@
+# Certificate for cloudfront MUST be in us-east-1
+#provider "aws" {
+#  alias = "virginia"
+}
+##  region = "us-east-1"
+
 resource "aws_cloudfront_distribution" "blog" {
+
+  provider = aws.use1
+
   origin {
     domain_name = aws_s3_bucket.blog.bucket_regional_domain_name
     origin_id   = local.s3_origin_id
