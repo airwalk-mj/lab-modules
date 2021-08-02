@@ -1,6 +1,3 @@
-#terraform {
-#  required_version = ">= 0.13.0"
-#}
 
 terraform {
   required_providers {
@@ -9,7 +6,12 @@ terraform {
       version = ">= 3.52.0"
     }
   }
+  required_version = ">= 0.13.0"
 }
+
+#terraform {
+#  required_version = ">= 0.13.0"
+#}
 
 # create a non-aliased provider along with the aliased providers
 provider "aws" {
