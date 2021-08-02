@@ -1,4 +1,5 @@
 resource "aws_acm_certificate" "cert" {
+  provider = aws.use1
   domain_name       = var.site_domain
   validation_method = "DNS"
   lifecycle {
