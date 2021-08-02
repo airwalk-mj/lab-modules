@@ -9,6 +9,10 @@ resource "aws_s3_bucket" "blog" {
   #  allowed_origins = ["https://${var.site_domain}"]
   #  max_age_seconds = 3000
   #}
+  
+  versioning {
+    enabled = false
+  }
 
   website {
     index_document = var.bucket_index_document
@@ -16,9 +20,6 @@ resource "aws_s3_bucket" "blog" {
   }
 }
 
-  versioning {
-    enabled = false
-  }
 
 ## Also uncomment logging_config in cloudfront.tf
 #resource "aws_s3_bucket" "logs" {
