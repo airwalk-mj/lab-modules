@@ -4,10 +4,11 @@ resource "aws_s3_bucket" "blog" {
   acl    = "private"
 }
 
-resource "aws_s3_bucket" "logs" {
-  bucket = "logs.${var.site_domain}"
-  acl    = "private"
-}
+## Also uncomment logging_config in cloudfront.tf
+#resource "aws_s3_bucket" "logs" {
+#  bucket = "logs.${var.site_domain}"
+#  acl    = "private"
+#}
 
 data "aws_iam_policy_document" "blog_s3_policy" {
   statement {
