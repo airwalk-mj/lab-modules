@@ -3,24 +3,24 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 3.4"
+  #version = "~> 3.4"
   region  = var.region
 }
 
 provider "random" {
-  version = "~> 2.3"
+  #version = "~> 2.3"
 }
 
 provider "local" {
-  version = "~> 1.4"
+  #version = "~> 1.4"
 }
 
 provider "null" {
-  version = "~> 2.1"
+  #version = "~> 2.1"
 }
 
 provider "template" {
-  version = "~> 2.1"
+  #version = "~> 2.1"
 }
 
 provider "kubernetes" {
@@ -28,7 +28,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.cluster.token
   load_config_file       = false
-  version                = "~> 1.13"
+  #version                = "~> 1.13"
 }
 
 data "aws_availability_zones" "available" {
@@ -37,7 +37,7 @@ data "aws_availability_zones" "available" {
 locals {
   #cluster_name = "test-eks-${random_string.suffix.result}"
   cluster_name = "eks-lab"
-  cluster_version = "1.16"
+  cluster_version = "1.19"
 }
 
 resource "random_string" "suffix" {
