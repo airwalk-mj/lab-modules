@@ -7,10 +7,13 @@ terraform {
       version = ">= 3.1.1"
     }
     local = {
-      #version = ">= 3.1.1"
+      version = ">= 2.2.2"
     }
     random = {
-      #version = ">= 3.1.1"
+      version = ">= 3.1.3"
+    }
+    kubernetes = {
+      version = "~> 1.13"
     }
   }
 }
