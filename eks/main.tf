@@ -19,9 +19,9 @@ provider "null" {
   #version = "~> 2.1"
 }
 
-provider "template" {
-  #version = "~> 2.1"
-}
+#provider "template" {
+#  #version = "~> 2.1"
+#}
 
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
