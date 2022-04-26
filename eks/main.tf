@@ -13,7 +13,7 @@ terraform {
       version = ">= 3.1.3"
     }
     kubernetes = {
-      version = "~> 1.13"
+      #version = "~> 1.13"
     }
   }
 }
