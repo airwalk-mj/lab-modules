@@ -37,7 +37,7 @@ data "aws_availability_zones" "available" {
 locals {
   #cluster_name = "test-eks-${random_string.suffix.result}"
   cluster_name = "eks-lab"
-  cluster_version = "1.19"
+  cluster_version = "1.21"
 }
 
 resource "random_string" "suffix" {
@@ -150,13 +150,31 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
-  worker_groups = [
-    {
-      name                          = "worker-group-1"
-      instance_type                 = "t2.xlarge"
-      additional_userdata           = "echo Mark James"
-      asg_desired_capacity          = 1
-      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
-    },
-  ]
+  #worker_groups = [
+  #  {
+  #    name                          = "worker-group-1"
+  #    instance_type                 = "t2.xlarge"
+  #    additional_userdata           = "echo Mark James"
+  #    asg_desired_capacity          = 1
+  #    additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
+  #  },
+  #]
+
+  # EKS Managed Node Group(s)
+  eks_managed_node_group_defaults = {
+    disk_size      = 50
+    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+  }
+
+  eks_managed_node_groups = {
+    blue = {}
+    green = {
+      min_size     = 1
+      max_size     = 1
+      desired_size = 1
+
+      instance_types = ["m5.large"]
+      #capacity_type  = "SPOT"
+    }
+  }
 }
