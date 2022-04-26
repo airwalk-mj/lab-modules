@@ -1,5 +1,7 @@
+
 terraform {
-  required_version = ">= 0.12.0"
+  required_version = ">= 0.14.0"
+
   required_providers {
     aws = {
       version = ">= 4.11.0"    }
@@ -35,8 +37,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
 }
 
-data "aws_availability_zones" "available" {
-}
+data "aws_availability_zones" "available" {}
 
 locals {
   #cluster_name = "test-eks-${random_string.suffix.result}"
@@ -183,14 +184,15 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    blue = {}
-    green = {
-      min_size     = 1
-      max_size     = 1
-      desired_size = 1
-
+    blue = {
+      min_size       = 1
+      max_size       = 1
+      desired_size   = 1
       instance_types = ["m5.large"]
-      #capacity_type  = "SPOT"
     }
+    green = {}
   }
+
+  # aws-auth configmap
+  manage_aws_auth_configmap = true
 }
