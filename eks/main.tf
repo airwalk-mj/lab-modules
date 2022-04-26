@@ -173,7 +173,7 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     disk_size      = 50
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+    instance_types = ["m5.large", "m5.xlarge"]
   }
 
   eks_managed_node_groups = {
