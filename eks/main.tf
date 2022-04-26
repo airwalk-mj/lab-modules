@@ -133,7 +133,7 @@ data "aws_eks_cluster_auth" "cluster" {
 }
 
 module "eks" {
-  source       = "terraform-aws-modules/eks/aws"
+  source  = "terraform-aws-modules/eks/aws"
   version = "~> 18.0"
 
   cluster_name    = local.cluster_name
@@ -166,16 +166,7 @@ module "eks" {
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
-  
-  #worker_groups = [
-  #  {
-  #    name                          = "worker-group-1"
-  #    instance_type                 = "t2.xlarge"
-  #    additional_userdata           = "echo Mark James"
-  #    asg_desired_capacity          = 1
-  #    additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
-  #  },
-  #]
+
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
