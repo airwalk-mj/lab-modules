@@ -2,9 +2,7 @@ terraform {
   required_version = ">= 0.12.0"
   required_providers {
     aws = {
-      version = ">= 3.72.0"
-      region  = var.region
-    }
+      version = ">= 3.72.0"    }
     null = {
       version = ">= 3.1.1"
     }
@@ -21,10 +19,10 @@ terraform {
 #  required_version = ">= 0.12.0"
 #}
 
-#provider "aws" {
-#  #version = "~> 3.4"
-#  region  = var.region
-#}
+provider "aws" {
+  #version = "~> 3.4"
+  region  = var.region
+}
 
 #provider "random" {
 #  #version = "~> 2.3"
