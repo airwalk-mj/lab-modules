@@ -16,7 +16,7 @@ provider "local" {
 }
 
 provider "null" {
-  version = "v3.1.1"
+  version = ">= 3.1.1"
 }
 
 #provider "template" {
