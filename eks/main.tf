@@ -16,7 +16,7 @@ provider "local" {
 }
 
 provider "null" {
-  #version = "~> 2.1"
+  version = "v3.1.1"
 }
 
 #provider "template" {
@@ -131,13 +131,13 @@ data "aws_eks_cluster_auth" "cluster" {
 module "eks" {
   source       = "terraform-aws-modules/eks/aws"
   cluster_name    = local.cluster_name
-  cluster_version = "1.19"
+  cluster_version = "1.21"
   #subnets         = module.vpc.private_subnets
   subnet_ids         = module.vpc.private_subnets
 
   cluster_encryption_config = [
     {
-      provider_key_arn = aws_kms_key.eks.arn        # arn:aws:kms:eu-west-2:544294979223:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d
+      provider_key_arn = "arn:aws:kms:eu-west-2:544294979223:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
       resources        = ["secrets"]
     }
   ]
