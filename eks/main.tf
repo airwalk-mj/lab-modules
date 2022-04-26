@@ -1,23 +1,42 @@
 terraform {
   required_version = ">= 0.12.0"
+  required_providers {
+    aws = {
+      version = ">= 3.72.0"
+      region  = var.region
+    }
+    null = {
+      version = ">= 3.1.1"
+    }
+    local = {
+      #version = ">= 3.1.1"
+    }
+    random = {
+      #version = ">= 3.1.1"
+    }
+  }
 }
 
-provider "aws" {
-  #version = "~> 3.4"
-  region  = var.region
-}
+#terraform {
+#  required_version = ">= 0.12.0"
+#}
 
-provider "random" {
-  #version = "~> 2.3"
-}
+#provider "aws" {
+#  #version = "~> 3.4"
+#  region  = var.region
+#}
 
-provider "local" {
-  #version = "~> 1.4"
-}
+#provider "random" {
+#  #version = "~> 2.3"
+#}
 
-provider "null" {
-  version = ">= 3.1.1"
-}
+#provider "local" {
+#  #version = "~> 1.4"
+#}
+
+#provider "null" {
+#}
+#  version = ">= 3.1.1"
 
 #provider "template" {
 #  #version = "~> 2.1"
