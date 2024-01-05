@@ -124,6 +124,28 @@ module "vpc" {
   }
 }
 
+
+module "vpc_endpoints" {
+  source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+  version = "v5.1.2"
+
+  vpc_id             = module.vpc.vpc_id
+  security_group_ids = [module.vpc_endpoints_sg.security_group_id]
+
+  endpoints = {
+    s3 = {
+      service             = "s3"
+      tags                = { Name = "s3-vpc-endpoint" }
+      service_type        = "Interface"
+      private_dns_enabled = true
+    }
+  }
+
+  tags = var.default_tags
+
+}
+
+
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
@@ -140,17 +162,6 @@ module "eks" {
   cluster_version = "1.28"
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
-
-  cluster_addons = {
-    coredns = {
-      resolve_conflicts = "OVERWRITE"
-    }
-    kube-proxy = {}
-    vpc-cni = {
-      resolve_conflicts = "OVERWRITE"
-    }
-  }
-
   cluster_encryption_config = [
     {
       provider_key_arn = "arn:aws:kms:eu-west-2:544294979223:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
@@ -185,4 +196,42 @@ module "eks" {
 
   # aws-auth configmap
   manage_aws_auth_configmap = true
+}
+
+module "eks_blueprints_addons" {
+  source = "aws-ia/eks-blueprints-addons/aws"
+  version = "~> 1.0" #ensure to update this to the latest/desired version
+
+  cluster_name      = module.eks.cluster_name
+  cluster_endpoint  = module.eks.cluster_endpoint
+  cluster_version   = module.eks.cluster_version
+  oidc_provider_arn = module.eks.oidc_provider_arn
+
+  eks_addons = {
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
+    coredns = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+  }
+
+  enable_aws_load_balancer_controller    = true
+  enable_cluster_proportional_autoscaler = true
+  enable_karpenter                       = true
+  enable_kube_prometheus_stack           = true
+  enable_metrics_server                  = true
+  enable_external_dns                    = true
+  enable_cert_manager                    = true
+  cert_manager_route53_hosted_zone_arns  = ["arn:aws:route53:::hostedzone/Z064458838N2OGDPML4NA"]
+
+  tags = {
+    Environment = "dev"
+  }
 }
