@@ -42,7 +42,7 @@ data "aws_availability_zones" "available" {}
 locals {
   #cluster_name = "test-eks-${random_string.suffix.result}"
   cluster_name = "eks-lab"
-  cluster_version = "1.21"
+  cluster_version = "1.28"
 }
 
 resource "random_string" "suffix" {
@@ -137,7 +137,7 @@ module "eks" {
   version = "~> 18.0"
 
   cluster_name    = local.cluster_name
-  cluster_version = "1.21"
+  cluster_version = "1.28"
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
 
@@ -167,11 +167,10 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     disk_size      = 50
-    instance_types = ["m5.large", "m5.xlarge"]
+    instance_types = ["t3.medium", "m5.xlarge"]
   }
 
   eks_managed_node_groups = {
@@ -179,7 +178,7 @@ module "eks" {
       min_size       = 1
       max_size       = 1
       desired_size   = 1
-      instance_types = ["m5.large"]
+      instance_types = ["t3.medium"]
     }
     green = {}
   }
