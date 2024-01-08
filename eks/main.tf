@@ -6,6 +6,7 @@ locals {
 
 terraform {
   required_version = ">= 0.19.0"
+}
 
   required_providers {
     aws = {
