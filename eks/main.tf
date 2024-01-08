@@ -181,7 +181,7 @@ module "eks" {
 
   tags = {
     GithubRepo  = "terraform-aws-eks"
-    Environment = local.environment
+    #Environment = local.awsenvironment
     GithubOrg   = "terraform-aws-modules"
   }
 
