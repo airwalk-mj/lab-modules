@@ -35,7 +35,6 @@ provider "aws" {
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token
-  #cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority_data)
 
   exec {
@@ -156,6 +155,7 @@ locals {
   #cluster_name = "test-eks-${random_string.suffix.result}"
   cluster_name   = "eks-lab"
   k8s_version    = "1.28"
+  aws_region     = "${aws_region}"
   encryption_key = "arn:aws:kms:${aws_region}:${aws_account}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
 }
 data "aws_eks_cluster" "cluster" {
