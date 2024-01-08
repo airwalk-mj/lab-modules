@@ -49,11 +49,6 @@ provider "kubernetes" {
 data "aws_availability_zones" "available" {}
 data "aws_caller_identity" "current" {}
 
-locals {
-  #cluster_name = "test-eks-${random_string.suffix.result}"
-  cluster_name = "eks-lab"
-  cluster_version = "1.28"
-}
 
 resource "random_string" "suffix" {
   length  = 8
@@ -107,6 +102,7 @@ resource "aws_security_group" "all_worker_mgmt" {
   }
 }
 
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
 
@@ -156,7 +152,12 @@ module "vpc" {
 
 #}
 
-
+locals {
+  #cluster_name = "test-eks-${random_string.suffix.result}"
+  cluster_name   = "eks-lab"
+  k8s_version    = "1.28"
+  encryption_key = "arn:aws:kms:${aws_region}:${aws_account}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
+}
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
@@ -168,15 +169,14 @@ data "aws_eks_cluster_auth" "cluster" {
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"
-
   cluster_name    = local.cluster_name
-  cluster_version = local.cluster_version
+  cluster_version = local.k8s_version
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
   cluster_encryption_config = [
     {
       resources        = ["secrets"]
-      provider_key_arn = "arn:aws:kms:${aws_region}:${aws_account}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
+      provider_key_arn = local.encryption_key
     }
   ]
 
@@ -247,7 +247,7 @@ module "eks_blueprints_addons" {
   enable_cert_manager                    = true
   cert_manager_route53_hosted_zone_arns  = ["arn:aws:route53:::hostedzone/Z064458838N2OGDPML4NA"]
 
-  tags = {
-    Environment = "dev"
-  }
+  #tags = {
+  #  Environment = "dev"
+  #}
 }
