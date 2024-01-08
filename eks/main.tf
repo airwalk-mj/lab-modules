@@ -1,8 +1,7 @@
-locals {
-  #cluster_name = "test-eks-${random_string.suffix.result}"
-  cluster_name = "eks-lab"
-  cluster_version = "1.28"
-  aws_region = var.region
+
+terraform {
+  required_version = ">= 0.19.0"
+
   required_providers {
     aws = {
       version = ">= 4.11.0"    }
@@ -21,11 +20,9 @@ locals {
   }
 }
 
-terraform {
-  required_version = ">= 0.19.0"
-}
 provider "aws" {
-  region  = var.aws_region
+  region  = var.region
+  #region - local.region
 }
 
 # Kubernetes provider
@@ -51,6 +48,12 @@ provider "kubernetes" {
 
 data "aws_availability_zones" "available" {}
 data "aws_caller_identity" "current" {}
+
+locals {
+  #cluster_name = "test-eks-${random_string.suffix.result}"
+  cluster_name = "eks-lab"
+  cluster_version = "1.28"
+}
 
 resource "random_string" "suffix" {
   length  = 8
@@ -133,25 +136,26 @@ module "vpc" {
 }
 
 
-#module "vpc_endpoints" {
-#  source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
-#  version = "v5.1.2"
+module "vpc_endpoints" {
+  source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+  version = "v5.1.2"
 
-#  vpc_id             = module.vpc.vpc_id
-#  security_group_ids = [module.vpc_endpoints_sg.security_group_id]
+  vpc_id             = module.vpc.vpc_id
+  security_group_ids = [module.vpc_endpoints_sg.security_group_id]
 
-#  endpoints = {
-#    s3 = {
-#      service             = "s3"
-#      tags                = { Name = "s3-vpc-endpoint" }
-#      service_type        = "Interface"
-#      private_dns_enabled = true
-#  }
-#    }
+  endpoints = {
+    s3 = {
+      service             = "s3"
+      tags                = { Name = "s3-vpc-endpoint" }
+      service_type        = "Interface"
+      private_dns_enabled = true
+    }
+  }
 
-  # tags = var.default_tags
+  #tags = var.default_tags
 
-#}
+}
+
 
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
@@ -172,13 +176,13 @@ module "eks" {
   cluster_encryption_config = [
     {
       resources        = ["secrets"]
-      provider_key_arn = "arn:aws:kms:${local.aws_region}:${local.aws_account}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
+      provider_key_arn = "arn:aws:kms:${aws_region}:${aws_account}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
     }
   ]
 
   tags = {
     GithubRepo  = "terraform-aws-eks"
-    #Environment = local.awsenvironment
+    #Environment = local.environment
     GithubOrg   = "terraform-aws-modules"
   }
 
