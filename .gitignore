@@ -14,3 +14,4 @@ eks-admin-service-account.yaml
 config-map-aws-auth*.yaml
 kubeconfig_*
 .terragrunt-cache
+.terraform.lock.hcl
