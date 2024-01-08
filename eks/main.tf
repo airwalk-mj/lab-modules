@@ -170,7 +170,7 @@ module "eks" {
   version = "~> 19.0"
 
   cluster_name    = local.cluster_name
-  cluster_version = "1.28"
+  cluster_version = local.cluster_version
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
   cluster_encryption_config = [
