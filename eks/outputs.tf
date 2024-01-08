@@ -33,7 +33,7 @@ output "cluster_name" {
   value       = local.cluster_name
 }
 
-output "vpc-endpoints" {
-  description = "Array containing the full resource object and attributes for all endpoints created"
-  value       = module.vpc-endpoints.endpoints
-}
+#output "vpc-endpoints" {
+#  description = "Array containing the full resource object and attributes for all endpoints created"
+#  value       = module.vpc-endpoints.endpoints
+#}
