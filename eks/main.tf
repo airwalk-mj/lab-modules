@@ -3,11 +3,6 @@ locals {
   cluster_name = "eks-lab"
   cluster_version = "1.28"
   aws_region = var.region
-
-terraform {
-  required_version = ">= 0.19.0"
-}
-
   required_providers {
     aws = {
       version = ">= 4.11.0"    }
@@ -26,6 +21,9 @@ terraform {
   }
 }
 
+terraform {
+  required_version = ">= 0.19.0"
+}
 provider "aws" {
   region  = var.aws_region
 }
