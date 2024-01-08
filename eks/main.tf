@@ -175,7 +175,7 @@ module "eks" {
   cluster_encryption_config = [
     {
       resources        = ["secrets"]
-      provider_key_arn = "arn:aws:kms:" + region  + ":544294979223:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
+      provider_key_arn = "arn:aws:kms:" + aws_region  + ":544294979223:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
     }
   ]
 
