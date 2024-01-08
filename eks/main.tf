@@ -1,3 +1,23 @@
+locals {
+  # Automatically load account-level variables
+  account_vars = read_terragrunt_config(find_in_parent_folders("account.hcl"))
+
+  # Automatically load region-level variables
+  region_vars = read_terragrunt_config(find_in_parent_folders("region.hcl"))
+
+  # Automatically load environment-level variables
+  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+
+  # Extract the variables we need for easy access
+  account_name = local.account_vars.locals.account_name
+  account_id   = local.account_vars.locals.aws_account_id
+  aws_region   = local.region_vars.locals.aws_region
+
+  #cluster_name = "test-eks-${random_string.suffix.result}"
+  cluster_name   = "eks-lab"
+  k8s_version    = "1.28"
+  encryption_key = "arn:aws:kms:${aws_region}:${account_id}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
+}
 
 terraform {
   required_version = ">= 0.19.0"
@@ -20,9 +40,9 @@ terraform {
   }
 }
 
-#provider "aws" {
-#  region  = local.aws_region
-#}
+provider "aws" {
+  region  = "${local.aws_region}"
+}
 
 # Kubernetes provider
 # https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster#optional-configure-terraform-kubernetes-provider
@@ -150,12 +170,7 @@ module "vpc" {
 
 #}
 
-locals {
-  #cluster_name = "test-eks-${random_string.suffix.result}"
-  cluster_name   = "eks-lab"
-  k8s_version    = "1.28"
-  encryption_key = "arn:aws:kms:${aws_region}:${aws_account}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
-}
+
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
