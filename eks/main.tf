@@ -1,3 +1,8 @@
+locals {
+  #cluster_name = "test-eks-${random_string.suffix.result}"
+  cluster_name = "eks-lab"
+  cluster_version = "1.28"
+  aws_region = var.region
 
 terraform {
   required_version = ">= 0.19.0"
@@ -21,8 +26,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
-  #region - local.region
+  region  = var.aws_region
 }
 
 # Kubernetes provider
@@ -48,12 +52,6 @@ provider "kubernetes" {
 
 data "aws_availability_zones" "available" {}
 data "aws_caller_identity" "current" {}
-
-locals {
-  #cluster_name = "test-eks-${random_string.suffix.result}"
-  cluster_name = "eks-lab"
-  cluster_version = "1.28"
-}
 
 resource "random_string" "suffix" {
   length  = 8
@@ -175,7 +173,7 @@ module "eks" {
   cluster_encryption_config = [
     {
       resources        = ["secrets"]
-      provider_key_arn = "arn:aws:kms:" + aws_region  + ":544294979223:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
+      provider_key_arn = "arn:aws:kms:${local.aws_region}:${local.aws_account}:key/9f1bd709-ba1b-40ae-a04e-d3ff4850e88d"
     }
   ]
 
